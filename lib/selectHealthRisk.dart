@@ -18,7 +18,8 @@
 import 'package:flutter/material.dart';
 
 class MyStatefulWidget extends StatelessWidget {
-  MyStatefulWidget({Key key, @required this.healthRisk, @required this.selectHealthRisk})
+  MyStatefulWidget(
+      {Key key, @required this.healthRisk, @required this.selectHealthRisk})
       : super(key: key);
 
   final String healthRisk;

@@ -2,47 +2,48 @@ import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
 import "sendSMS.dart";
 
-  class VisibilityExample extends StatefulWidget {
-    @override
-    _VisibilityExampleState createState() {
-      return _VisibilityExampleState();
-    }
+class VisibilityExample extends StatefulWidget {
+  @override
+  _VisibilityExampleState createState() {
+    return _VisibilityExampleState();
   }
-  
-  class _VisibilityExampleState extends State {
-    bool _isVisible = true;
-    String _healthRisk = "0";
+}
 
-    // TODO: State for the select people widget
-    num _maleUnderFive = 0;
-    num _maleOverFive = 0;
-    num _femaleUnderFive = 0;
-    num _femaleOverFive = 0;
-    
-    // TODO: Get that data from the backend
-    List<String> phoneNumbers = ["+32000000000"]; 
-    void showToast() {
-      setState(() {
-        _isVisible = !_isVisible;
-      });
-    }
+class _VisibilityExampleState extends State {
+  bool _isVisible = true;
+  String _healthRisk = "0";
 
-   void _selectHealthRisk(String healthRisk) {
-      setState(() {
-        _healthRisk = healthRisk;
-      });
-    }
+  // TODO: State for the select people widget
+  num _maleUnderFive = 0;
+  num _maleOverFive = 0;
+  num _femaleUnderFive = 0;
+  num _femaleOverFive = 0;
 
-    void sendSms(){
-      String response = '$_healthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
-      SMSUtility.sendSMS(response, phoneNumbers);
-    }
-  
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: 'Visibility Tutorial by Woolha.com',
-        home: Scaffold(
+  // TODO: Get that data from the backend
+  List<String> phoneNumbers = ["+32000000000"];
+  void showToast() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
+
+  void _selectHealthRisk(String healthRisk) {
+    setState(() {
+      _healthRisk = healthRisk;
+    });
+  }
+
+  void sendSms() {
+    String response =
+        '$_healthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
+    SMSUtility.sendSMS(response, phoneNumbers);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Visibility Tutorial by Woolha.com',
+      home: Scaffold(
           appBar: AppBar(
             title: Text('Visibility Tutorial by Woolha.com'),
           ),
@@ -56,13 +57,11 @@ import "sendSMS.dart";
                   onPressed: showToast,
                 ),
                 Visibility(
-                  visible: !_isVisible,
-                  child: MyStatefulWidget(
-                    healthRisk: _healthRisk,
-                    selectHealthRisk: _selectHealthRisk
-                  )
-                ),
-                Visibility (
+                    visible: !_isVisible,
+                    child: MyStatefulWidget(
+                        healthRisk: _healthRisk,
+                        selectHealthRisk: _selectHealthRisk)),
+                Visibility(
                   visible: _isVisible,
                   child: Card(
                     child: new ListTile(
@@ -78,10 +77,9 @@ import "sendSMS.dart";
                 ),
               ],
             ),
-          )
-        ),
-      );
-    }
+          )),
+    );
   }
-  
-  void main() => runApp(VisibilityExample());
+}
+
+void main() => runApp(VisibilityExample());
