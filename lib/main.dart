@@ -73,8 +73,8 @@ import 'package:http/http.dart' as http;
         ),
       );
     }
-  Future _getThingsOnStartup() async {
-    print(await http.read('http://ip.jsontest.com/'));
+  Future _getThingsOnStartup() {
+    return http.read('http://ip.jsontest.com/').then(print);
 		}
   }
   
