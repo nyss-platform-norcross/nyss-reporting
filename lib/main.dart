@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
+import 'package:http/http.dart' as http;
 
   class VisibilityExample extends StatefulWidget {
     @override
@@ -12,6 +13,14 @@ import "selectHealthRisk.dart";
     bool _isVisible = true;
     String _healthRisk = "";
 
+  @override
+  void initState() {
+    _getThingsOnStartup().then((value){
+      print('Async done');
+    });
+    super.initState();
+  }
+
     void showToast() {
       setState(() {
         _isVisible = !_isVisible;
@@ -23,7 +32,7 @@ import "selectHealthRisk.dart";
         _healthRisk = healthRisk;
       });
     }
-  
+
     @override
     Widget build(BuildContext context) {
       return MaterialApp(
@@ -48,6 +57,13 @@ import "selectHealthRisk.dart";
                     selectHealthRisk: _selectHealthRisk
                   )
                 ),
+                Visibility(
+                  visible: !_isVisible,
+                  child: MyStatefulWidget(
+                    healthRisk: _healthRisk,
+                    selectHealthRisk: _selectHealthRisk
+                  )
+                ),
                 Visibility (
                   visible: _isVisible,
                   child: Card(
@@ -64,6 +80,9 @@ import "selectHealthRisk.dart";
         ),
       );
     }
+  Future _getThingsOnStartup() async {
+    print(await http.read('http://ip.jsontest.com/'));
+		}
   }
   
   void main() => runApp(VisibilityExample());
