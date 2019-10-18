@@ -19,7 +19,7 @@ class VisibilityExample extends StatefulWidget {
 class _VisibilityExampleState extends State {
   bool _healthRiskSelectorVisible = true;
   bool _reportWidgetVisible = false;
-  String _selectedHealthRisk = "0";
+  int _selectedHealthRisk = 0;
 
   // TODO: Put here the default number
   List<String> phoneNumbers = ["+32000000000"];
@@ -37,40 +37,41 @@ class _VisibilityExampleState extends State {
     super.initState();
   }
 
-  void addMaleUnderFive(){
+  void addMaleUnderFive() {
     setState(() {
       _maleUnderFive = _maleUnderFive + 1;
     });
   }
-   void addMaleOverFive(){
+
+  void addMaleOverFive() {
     setState(() {
       _maleOverFive = _maleOverFive + 1;
     });
   }
 
- void addFemaleUnderFive(){
+  void addFemaleUnderFive() {
     setState(() {
       _femaleUnderFive = _femaleUnderFive + 1;
     });
   }
 
- void addFemaleOverFive(){
+  void addFemaleOverFive() {
     setState(() {
       _femaleOverFive = _femaleOverFive + 1;
     });
   }
 
-
-  void decrementMaleUnderFive(){
-    if(_maleUnderFive == 0 ){
+  void decrementMaleUnderFive() {
+    if (_maleUnderFive == 0) {
       return;
     }
     setState(() {
       _maleUnderFive = _maleUnderFive - 1;
     });
   }
-   void decrementMaleOverFive(){
-     if(_maleOverFive == 0 ){
+
+  void decrementMaleOverFive() {
+    if (_maleOverFive == 0) {
       return;
     }
     setState(() {
@@ -78,8 +79,8 @@ class _VisibilityExampleState extends State {
     });
   }
 
- void decrementFemaleUnderFive(){
-   if(_femaleUnderFive == 0 ){
+  void decrementFemaleUnderFive() {
+    if (_femaleUnderFive == 0) {
       return;
     }
     setState(() {
@@ -87,8 +88,8 @@ class _VisibilityExampleState extends State {
     });
   }
 
- void decrementFemaleOverFive(){
-   if(_femaleOverFive == 0 ){
+  void decrementFemaleOverFive() {
+    if (_femaleOverFive == 0) {
       return;
     }
     setState(() {
@@ -96,13 +97,13 @@ class _VisibilityExampleState extends State {
     });
   }
 
-  void _selectHealthRisk(String selectedHealthRisk) {
+  void _selectHealthRisk(int selectedHealthRisk) {
     setState(() {
       _selectedHealthRisk = selectedHealthRisk;
     });
   }
 
-    void toggleHealthRiskSelectorVisibility() {
+  void toggleHealthRiskSelectorVisibility() {
     setState(() {
       _healthRiskSelectorVisible = !_healthRiskSelectorVisible;
     });
@@ -120,7 +121,7 @@ class _VisibilityExampleState extends State {
     SMSUtility.sendSMS(response, phoneNumbers);
   }
 
-    void validateHealthRisk() {
+  void validateHealthRisk() {
     if (ValidationUtils.healthRiskIsSet(1)) {
       toggleHealthRiskSelectorVisibility();
       toggleReportWidgetVisibility();
@@ -154,24 +155,23 @@ class _VisibilityExampleState extends State {
                     visible: _healthRiskSelectorVisible,
                     child: MyStatefulWidget(
                         healthRisk: _selectedHealthRisk,
+                        healthRisks: healthRisks,
                         selectHealthRisk: _selectHealthRisk)),
                 Visibility(
-                  visible: _reportWidgetVisible,
-                  child: PeopleCounter(
-                    maleOverFive: _maleOverFive,
-                    maleUnderFive: _maleUnderFive,
-                    femaleOverFive: _femaleOverFive,
-                    femaleUnderFive: _femaleUnderFive,
-                    addMaleUnderFive: addMaleUnderFive,
-                    addMaleOverFive: addMaleOverFive,
-                    addFemaleUnderFive: addFemaleUnderFive,
-                    addFemaleOverFive: addFemaleOverFive,
-                    decrementMaleUnderFive: decrementMaleUnderFive,
-                    decrementMaleOverFive: decrementMaleOverFive,
-                    decrementFemaleUnderFive: decrementFemaleUnderFive,
-                    decrementFemaleOverFive: decrementFemaleOverFive
-                  )
-                ),
+                    visible: _reportWidgetVisible,
+                    child: PeopleCounter(
+                        maleOverFive: _maleOverFive,
+                        maleUnderFive: _maleUnderFive,
+                        femaleOverFive: _femaleOverFive,
+                        femaleUnderFive: _femaleUnderFive,
+                        addMaleUnderFive: addMaleUnderFive,
+                        addMaleOverFive: addMaleOverFive,
+                        addFemaleUnderFive: addFemaleUnderFive,
+                        addFemaleOverFive: addFemaleOverFive,
+                        decrementMaleUnderFive: decrementMaleUnderFive,
+                        decrementMaleOverFive: decrementMaleOverFive,
+                        decrementFemaleUnderFive: decrementFemaleUnderFive,
+                        decrementFemaleOverFive: decrementFemaleOverFive)),
                 Visibility(
                   visible: _healthRiskSelectorVisible,
                   child: RaisedButton(
@@ -193,18 +193,14 @@ class _VisibilityExampleState extends State {
   }
 
   void _getThingsOnStartup() {
-    http
-        .read('${URL}phoneNumbers')
-        .then((value) {
+    http.read('${URL}phoneNumbers').then((value) {
       setState(() {
         phoneNumbers = jsonDecode(value)
             .map<String>((n) => Phone.fromJson(n).number)
             .toList();
       });
     });
-    http
-        .read('${URL}healthRisks')
-        .then((value) {
+    http.read('${URL}healthRisks').then((value) {
       setState(() {
         healthRisks = jsonDecode(value)
             .map<HealthRisk>((n) => HealthRisk.fromJson(n))
