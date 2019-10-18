@@ -18,7 +18,7 @@ class _VisibilityExampleState extends State {
 
   @override
   void initState() {
-    _getThingsOnStartup().then((value){
+    _getThingsOnStartup().then((value) {
       print('Async done');
     });
     super.initState();
@@ -88,15 +88,15 @@ class _VisibilityExampleState extends State {
                 ),
               ],
             ),
-          )
-        ),
-      );
-    }
+          )),
+    );
+  }
+
   Future _getThingsOnStartup() {
-    return http.read('http://ip.jsontest.com/').then((value){
-    setState(() {
-      phoneNumbers = jsonDecode(value);
-    });
+    return http.read('http://ip.jsontest.com/').then((value) {
+      setState(() {
+        phoneNumbers = jsonDecode(value);
+      });
     });
   }
 }
