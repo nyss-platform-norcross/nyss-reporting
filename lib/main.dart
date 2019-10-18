@@ -40,7 +40,7 @@ class _VisibilityExampleState extends State {
 
   void _selectHealthRisk(String selectedHealthRisk) {
     setState(() {
-			_selectedHealthRisk = selectedHealthRisk;
+      _selectedHealthRisk = selectedHealthRisk;
     });
   }
 
@@ -93,23 +93,30 @@ class _VisibilityExampleState extends State {
   }
 
   void _getThingsOnStartup() {
-    http.read('https://reportingappbackendrc.herokuapp.com/phoneNumbers').then((value) {
+    http
+        .read('https://reportingappbackendrc.herokuapp.com/phoneNumbers')
+        .then((value) {
       setState(() {
-        phoneNumbers = jsonDecode(value).map<String>((n) => Phone.fromJson(n).number).toList();
+        phoneNumbers = jsonDecode(value)
+            .map<String>((n) => Phone.fromJson(n).number)
+            .toList();
       });
     });
-    http.read('https://reportingappbackendrc.herokuapp.com/healthRisks').then((value) {
+    http
+        .read('https://reportingappbackendrc.herokuapp.com/healthRisks')
+        .then((value) {
       setState(() {
-        healthRisks = jsonDecode(value).map<HealthRisk>((n) => HealthRisk.fromJson(n)).toList();
-			});
+        healthRisks = jsonDecode(value)
+            .map<HealthRisk>((n) => HealthRisk.fromJson(n))
+            .toList();
+      });
     });
   }
 }
 
 void main() => runApp(VisibilityExample());
 
-class Phone
-{
+class Phone {
   final String number;
   final String name;
 
@@ -123,8 +130,7 @@ class Phone
   }
 }
 
-class HealthRisk
-{
+class HealthRisk {
   final int id;
   final String name;
 
