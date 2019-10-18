@@ -15,6 +15,7 @@ class PeopleCounter extends StatelessWidget {
       @required this.decrementMaleOverFive,
       @required this.decrementFemaleUnderFive,
       @required this.decrementFemaleOverFive,
+      @required this.sendSms,
 
       })
       : super(key: key);
@@ -34,16 +35,19 @@ class PeopleCounter extends StatelessWidget {
   final Function decrementFemaleUnderFive;
   final Function decrementFemaleOverFive;
 
-
+  final Function sendSms;
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: new Center(
-          child: Column(children: <Widget>[
-            new Row(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              new Text('Male < 5', style: new TextStyle(fontSize: 30.0)),
+            new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text('Male < 5', style: new TextStyle(fontSize: 25.0)),
               new FloatingActionButton(
                 onPressed: addMaleUnderFive,
                 child: new Icon(
@@ -64,8 +68,9 @@ class PeopleCounter extends StatelessWidget {
           ),
 
             new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Male > 5', style: new TextStyle(fontSize: 30.0)),
+              new Text('Male > 5', style: new TextStyle(fontSize: 25.0)),
               new FloatingActionButton(
                 onPressed: addMaleOverFive,
                 child: new Icon(
@@ -86,8 +91,9 @@ class PeopleCounter extends StatelessWidget {
           ),
 
             new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Female < 5', style: new TextStyle(fontSize: 30.0)),
+              new Text('Female < 5', style: new TextStyle(fontSize: 25.0)),
               new FloatingActionButton(
                 onPressed: addFemaleUnderFive,
                 child: new Icon(
@@ -108,8 +114,9 @@ class PeopleCounter extends StatelessWidget {
           ),
 
             new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Female > 5', style: new TextStyle(fontSize: 30.0)),
+              new Text('Female > 5', style: new TextStyle(fontSize: 25.0)),
 
               new FloatingActionButton(
                 onPressed: addFemaleOverFive,
@@ -129,6 +136,10 @@ class PeopleCounter extends StatelessWidget {
               ),
             ],
           ),
+            RaisedButton(
+              child: Text('Submit my data'),
+              onPressed: sendSms,
+            ),
           ]
         ),
       )
