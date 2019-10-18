@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
 import "sendSMS.dart";
+import 'validation.dart';
 
   class VisibilityExample extends StatefulWidget {
     @override
@@ -36,6 +37,14 @@ import "sendSMS.dart";
     void sendSms(){
       String response = 'Health Risk: $_healthRisk\nMale under 5: $_maleUnderFive\nMale over five: $_maleOverFive\nFemale under five: $_femaleUnderFive\nFemale over five: $_femaleOverFive';
       SMSUtility.sendSMS(response, phoneNumbers);
+    }
+
+    void validateAndSubmit() {
+      if (ValidationUtils.healthRiskIsSet(0)) {
+        sendSms();
+      } else {
+        // show some error message
+      }
     }
   
     @override
@@ -74,7 +83,7 @@ import "sendSMS.dart";
                 ),
                 RaisedButton(
                   child: Text('Submit my data'),
-                  onPressed: sendSms,
+                  onPressed: validateAndSubmit,
                 ),
               ],
             ),
