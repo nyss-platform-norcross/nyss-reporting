@@ -1,0 +1,16 @@
+name: Dart CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    container:
+      image:  google/dart:latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: prettify all the things
+      run: dartfmt **/*.dart
