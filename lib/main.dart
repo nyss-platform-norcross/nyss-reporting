@@ -102,27 +102,23 @@ class _VisibilityExampleState extends State {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Visibility Tutorial by Woolha.com',
+      title: 'Health Risk App',
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Visibility Tutorial by Woolha.com'),
+            title: Text('Health Risk App'),
           ),
           body: Padding(
             padding: EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RaisedButton(
-                  child: Text('Show/Hide Card B'),
-                  onPressed: showToast,
-                ),
                 Visibility(
-                    visible: !_isVisible,
+                    visible: _isVisible,
                     child: MyStatefulWidget(
                         healthRisk: _healthRisk,
                         selectHealthRisk: _selectHealthRisk)),
                 Visibility(
-                  visible: _isVisible,
+                  visible: !_isVisible,
                   child: PeopleCounter(
                     maleOverFive: _maleOverFive,
                     maleUnderFive: _maleUnderFive,
@@ -135,12 +131,13 @@ class _VisibilityExampleState extends State {
                     decrementMaleUnderFive: decrementMaleUnderFive,
                     decrementMaleOverFive: decrementMaleOverFive,
                     decrementFemaleUnderFive: decrementFemaleUnderFive,
-                    decrementFemaleOverFive: decrementFemaleOverFive
-                  )
+                    decrementFemaleOverFive: decrementFemaleOverFive,
+                    sendSms: sendSms
+                  ),
                 ),
                 RaisedButton(
-                  child: Text('Submit my data'),
-                  onPressed: sendSms,
+                  child: Text('Next'),
+                  onPressed: showToast,
                 ),
               ],
             ),

@@ -29,6 +29,7 @@ class MyStatefulWidget extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
+          new Text('Choose the symptom', style: new TextStyle(fontSize: 25.0)),
           ListTile(
             title: const Text('Hello'),
             leading: Radio(
