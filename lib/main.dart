@@ -14,15 +14,11 @@ class VisibilityExample extends StatefulWidget {
 
 class _VisibilityExampleState extends State {
   bool _isVisible = true;
-  String _healthRisk = "0";
+  String _selectedHealthRisk = "0";
 
-  @override
-  void initState() {
-    _getThingsOnStartup().then((value) {
-      print('Async done');
-    });
-    super.initState();
-  }
+  // TODO: Put here the default number
+  List<String> phoneNumbers = ["+32000000000"];
+  List<HealthRisk> healthRisks = new List<HealthRisk>();
 
   // TODO: State for the select people widget
   num _maleUnderFive = 0;
@@ -30,23 +26,27 @@ class _VisibilityExampleState extends State {
   num _femaleUnderFive = 0;
   num _femaleOverFive = 0;
 
-  // TODO: Put here the default number 
-  List<String> phoneNumbers = ["+32000000000"];
+  @override
+  void initState() {
+    _getThingsOnStartup();
+    super.initState();
+  }
+
   void showToast() {
     setState(() {
       _isVisible = !_isVisible;
     });
   }
 
-  void _selectHealthRisk(String healthRisk) {
+  void _selectHealthRisk(String selectedHealthRisk) {
     setState(() {
-      _healthRisk = healthRisk;
+			_selectedHealthRisk = selectedHealthRisk;
     });
   }
 
   void sendSms() {
     String response =
-        '$_healthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
+        '$_selectedHealthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
     SMSUtility.sendSMS(response, phoneNumbers);
   }
 
@@ -70,7 +70,7 @@ class _VisibilityExampleState extends State {
                 Visibility(
                     visible: !_isVisible,
                     child: MyStatefulWidget(
-                        healthRisk: _healthRisk,
+                        healthRisk: _selectedHealthRisk,
                         selectHealthRisk: _selectHealthRisk)),
                 Visibility(
                   visible: _isVisible,
@@ -92,15 +92,48 @@ class _VisibilityExampleState extends State {
     );
   }
 
-  Future _getThingsOnStartup() {
-    return http.read('http://a79a19f3.ngrok.io/phoneNumbers').then((value) {
-      // setState(() {
-      //   phoneNumbers = jsonDecode(value).map((n) => '${n.number}') ;
-      // });
-		print(jsonDecode(value));// .map((obj) => Tab(text: obj.number)).toList());
-		print(jsonDecode(value).map((n) => '${n.number}'));
+  void _getThingsOnStartup() {
+    http.read('https://reportingappbackendrc.herokuapp.com/phoneNumbers').then((value) {
+      setState(() {
+        phoneNumbers = jsonDecode(value).map<String>((n) => Phone.fromJson(n).number).toList();
+      });
+    });
+    http.read('https://reportingappbackendrc.herokuapp.com/healthRisks').then((value) {
+      setState(() {
+        healthRisks = jsonDecode(value).map<HealthRisk>((n) => HealthRisk.fromJson(n)).toList();
+			});
     });
   }
 }
 
 void main() => runApp(VisibilityExample());
+
+class Phone
+{
+  final String number;
+  final String name;
+
+  Phone({this.name, this.number});
+
+  factory Phone.fromJson(Map<String, dynamic> json) {
+    return Phone(
+      number: json['number'],
+      name: json['name'],
+    );
+  }
+}
+
+class HealthRisk
+{
+  final int id;
+  final String name;
+
+  HealthRisk({this.name, this.id});
+
+  factory HealthRisk.fromJson(Map<String, dynamic> json) {
+    return HealthRisk(
+      id: json['Id'],
+      name: json['Name'],
+    );
+  }
+}
