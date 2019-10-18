@@ -1,16 +1,35 @@
 # nyss_reporting
 
-A new Flutter project.
+This app is for reporting symptoms in remote areas.
 
-## Getting Started
+# Documentation for developers
+## App
+Most of the changes have to be made on the `/lib` folder. 
+This is the folder containing the main app's flutter code.
+The `main.dart` file is the main file, it is loaded when opening the app
 
-This project is a starting point for a Flutter application.
+## Server
+The `/server` folder contains a really simple (for now) backend that contains some of the data. For the moment it is needed to get the app running.
+To run it you need to download the dependencies with the command `yarn` or `npm i`, and do `yarn start` or `npm start`.
 
-A few resources to get you started if this is your first Flutter project:
+For the moment the endpoints are :
+- `/phoneNumbers`
+- `/healthRisks`
+- `/caseReports`
+- `/dataCollectors`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+There is also a backend deployed at (https://reportingappbackendrc.herokuapp.com/)[https://reportingappbackendrc.herokuapp.com/].
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Actions
+### Check
+We have a simple action named "check" that check if the app build correctly.
+### Releases 
+Releases are more or less working on and automatically beeing published to https://github.com/nyss-platform-norcross/nyss-reporting/releases. This is linked to the "build" Action
+
+## Setup
+If you want to automatically format you commits you can run the following command 
+```
+git config core.hooksPath "./git_hooks"
+```
+This will add hooks to git that will handle the formating for you
+
