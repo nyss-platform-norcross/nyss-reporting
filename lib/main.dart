@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
@@ -13,6 +15,14 @@ class VisibilityExample extends StatefulWidget {
 class _VisibilityExampleState extends State {
   bool _isVisible = true;
   String _healthRisk = "0";
+
+  @override
+  void initState() {
+    _getThingsOnStartup().then((value){
+      print('Async done');
+    });
+    super.initState();
+  }
 
   // TODO: State for the select people widget
   num _maleUnderFive = 0;
@@ -83,9 +93,11 @@ class _VisibilityExampleState extends State {
       );
     }
   Future _getThingsOnStartup() {
-    return http.read('http://ip.jsontest.com/').then(print);
-		}
-
+    return http.read('http://ip.jsontest.com/').then((value){
+    setState(() {
+      phoneNumbers = jsonDecode(value);
+    });
+    });
   }
 }
 
