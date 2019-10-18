@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
 
-  class VisibilityExample extends StatefulWidget {
-    @override
-    _VisibilityExampleState createState() {
-      return _VisibilityExampleState();
-    }
+class VisibilityExample extends StatefulWidget {
+  @override
+  _VisibilityExampleState createState() {
+    return _VisibilityExampleState();
   }
-  
-  class _VisibilityExampleState extends State {
-    bool _isVisible = true;
-    String _healthRisk = "";
+}
 
-    void showToast() {
-      setState(() {
-        _isVisible = !_isVisible;
-      });
-    }
+class _VisibilityExampleState extends State {
+  bool _isVisible = true;
+  String _healthRisk = "";
 
-   void _selectHealthRisk(String healthRisk) {
-      setState(() {
-        _healthRisk = healthRisk;
-      });
-    }
-  
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: 'Visibility Tutorial by Woolha.com',
-        home: Scaffold(
+  void showToast() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
+
+  void _selectHealthRisk(String healthRisk) {
+    setState(() {
+      _healthRisk = healthRisk;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Visibility Tutorial by Woolha.com',
+      home: Scaffold(
           appBar: AppBar(
             title: Text('Visibility Tutorial by Woolha.com'),
           ),
@@ -42,13 +42,11 @@ import "selectHealthRisk.dart";
                   onPressed: showToast,
                 ),
                 Visibility(
-                  visible: !_isVisible,
-                  child: MyStatefulWidget(
-                    healthRisk: _healthRisk,
-                    selectHealthRisk: _selectHealthRisk
-                  )
-                ),
-                Visibility (
+                    visible: !_isVisible,
+                    child: MyStatefulWidget(
+                        healthRisk: _healthRisk,
+                        selectHealthRisk: _selectHealthRisk)),
+                Visibility(
                   visible: _isVisible,
                   child: Card(
                     child: new ListTile(
@@ -60,10 +58,9 @@ import "selectHealthRisk.dart";
                 )
               ],
             ),
-          )
-        ),
-      );
-    }
+          )),
+    );
   }
-  
-  void main() => runApp(VisibilityExample());
+}
+
+void main() => runApp(VisibilityExample());
