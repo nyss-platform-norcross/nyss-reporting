@@ -57,13 +57,6 @@ import 'package:http/http.dart' as http;
                     selectHealthRisk: _selectHealthRisk
                   )
                 ),
-                Visibility(
-                  visible: !_isVisible,
-                  child: MyStatefulWidget(
-                    healthRisk: _healthRisk,
-                    selectHealthRisk: _selectHealthRisk
-                  )
-                ),
                 Visibility (
                   visible: _isVisible,
                   child: Card(
