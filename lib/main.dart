@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
+import "peopleCounter.dart";
 import "sendSMS.dart";
+
+const String URL = "https://reportingappbackendrc.herokuapp.com/";
 
 class VisibilityExample extends StatefulWidget {
   @override
@@ -30,6 +33,65 @@ class _VisibilityExampleState extends State {
   void initState() {
     _getThingsOnStartup();
     super.initState();
+  }
+
+  void addMaleUnderFive(){
+    setState(() {
+      _maleUnderFive = _maleUnderFive + 1;
+    });
+  }
+   void addMaleOverFive(){
+    setState(() {
+      _maleOverFive = _maleOverFive + 1;
+    });
+  }
+
+ void addFemaleUnderFive(){
+    setState(() {
+      _femaleUnderFive = _femaleUnderFive + 1;
+    });
+  }
+
+ void addFemaleOverFive(){
+    setState(() {
+      _femaleOverFive = _femaleOverFive + 1;
+    });
+  }
+
+
+  void decrementMaleUnderFive(){
+    if(_maleUnderFive == 0 ){
+      return;
+    }
+    setState(() {
+      _maleUnderFive = _maleUnderFive - 1;
+    });
+  }
+   void decrementMaleOverFive(){
+     if(_maleOverFive == 0 ){
+      return;
+    }
+    setState(() {
+      _maleOverFive = _maleOverFive - 1;
+    });
+  }
+
+ void decrementFemaleUnderFive(){
+   if(_femaleUnderFive == 0 ){
+      return;
+    }
+    setState(() {
+      _femaleUnderFive = _femaleUnderFive - 1;
+    });
+  }
+
+ void decrementFemaleOverFive(){
+   if(_femaleOverFive == 0 ){
+      return;
+    }
+    setState(() {
+      _femaleOverFive = _femaleOverFive - 1;
+    });
   }
 
   void showToast() {
@@ -74,13 +136,20 @@ class _VisibilityExampleState extends State {
                         selectHealthRisk: _selectHealthRisk)),
                 Visibility(
                   visible: _isVisible,
-                  child: Card(
-                    child: new ListTile(
-                      title: Center(
-                        child: new Text('B'),
-                      ),
-                    ),
-                  ),
+                  child: PeopleCounter(
+                    maleOverFive: _maleOverFive,
+                    maleUnderFive: _maleUnderFive,
+                    femaleOverFive: _femaleOverFive,
+                    femaleUnderFive: _femaleUnderFive,
+                    addMaleUnderFive: addMaleUnderFive,
+                    addMaleOverFive: addMaleOverFive,
+                    addFemaleUnderFive: addFemaleUnderFive,
+                    addFemaleOverFive: addFemaleOverFive,
+                    decrementMaleUnderFive: decrementMaleUnderFive,
+                    decrementMaleOverFive: decrementMaleOverFive,
+                    decrementFemaleUnderFive: decrementFemaleUnderFive,
+                    decrementFemaleOverFive: decrementFemaleOverFive
+                  )
                 ),
                 RaisedButton(
                   child: Text('Submit my data'),
@@ -94,7 +163,7 @@ class _VisibilityExampleState extends State {
 
   void _getThingsOnStartup() {
     http
-        .read('https://reportingappbackendrc.herokuapp.com/phoneNumbers')
+        .read('${URL}phoneNumbers')
         .then((value) {
       setState(() {
         phoneNumbers = jsonDecode(value)
@@ -103,7 +172,7 @@ class _VisibilityExampleState extends State {
       });
     });
     http
-        .read('https://reportingappbackendrc.herokuapp.com/healthRisks')
+        .read('${URL}healthRisks')
         .then((value) {
       setState(() {
         healthRisks = jsonDecode(value)

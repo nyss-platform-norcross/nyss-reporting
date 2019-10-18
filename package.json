@@ -1,0 +1,13 @@
+{
+  "name": "nyss-reporting-mock-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.15.1"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node server/index.js"
+  }
+}
