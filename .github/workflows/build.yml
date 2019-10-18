@@ -1,10 +1,9 @@
 name: build
 
 on:
-  [push]
-  #push:
-  #  branches:
-  #    - master
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -20,7 +19,7 @@ jobs:
           flutter-version: '1.9.x'
       - run: flutter pub get
       - run: flutter build apk
-      - name: upload apk to artifact
+      - name: Upload apk to artifact
         uses: actions/upload-artifact@v1
         with:
           name: nyss-reporting.apk
