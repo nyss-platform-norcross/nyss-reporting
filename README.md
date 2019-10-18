@@ -20,14 +20,16 @@ For the moment the endpoints are :
 
 There is also a backend deployed at (https://reportingappbackendrc.herokuapp.com/)[https://reportingappbackendrc.herokuapp.com/].
 
-# Actions
+## Actions
+### Check
 We have a simple action named "check" that check if the app build correctly.
+### Releases 
+Releases are more or less working on and automatically beeing published to https://github.com/nyss-platform-norcross/nyss-reporting/releases. This is linked to the "build" Action
 
-# Setup
+## Setup
 If you want to automatically format you commits you can run the following command 
 ```
 git config core.hooksPath "./git_hooks"
 ```
 This will add hooks to git that will handle the formating for you
 
-# Releases 
