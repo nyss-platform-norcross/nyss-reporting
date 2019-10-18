@@ -17,7 +17,7 @@ class VisibilityExample extends StatefulWidget {
 
 class _VisibilityExampleState extends State {
   bool _isVisible = true;
-  String _selectedHealthRisk = "0";
+  int _selectedHealthRisk = 0;
 
   // TODO: Put here the default number
   List<String> phoneNumbers = ["+32000000000"];
@@ -100,7 +100,7 @@ class _VisibilityExampleState extends State {
     });
   }
 
-  void _selectHealthRisk(String selectedHealthRisk) {
+  void _selectHealthRisk(int selectedHealthRisk) {
     setState(() {
       _selectedHealthRisk = selectedHealthRisk;
     });
@@ -133,6 +133,7 @@ class _VisibilityExampleState extends State {
                     visible: !_isVisible,
                     child: MyStatefulWidget(
                         healthRisk: _selectedHealthRisk,
+                        healthRisks: healthRisks,
                         selectHealthRisk: _selectHealthRisk)),
                 Visibility(
                   visible: _isVisible,
