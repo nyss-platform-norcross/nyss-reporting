@@ -3,55 +3,72 @@ import "selectHealthRisk.dart";
 import "sendSMS.dart";
 import 'validation.dart';
 
-  class VisibilityExample extends StatefulWidget {
-    @override
-    _VisibilityExampleState createState() {
-      return _VisibilityExampleState();
+class VisibilityExample extends StatefulWidget {
+  @override
+  _VisibilityExampleState createState() {
+    return _VisibilityExampleState();
+  }
+}
+
+class _VisibilityExampleState extends State {
+  bool _healthRiskSelectorVisible = true;
+  bool _reportWidgetVisible = false;
+  String _healthRisk = "";
+
+  // TODO: State for the select people widget
+  num _maleUnderFive = 0;
+  num _maleOverFive = 0;
+  num _femaleUnderFive = 0;
+  num _femaleOverFive = 0;
+
+  // TODO: Get that data from the backend
+  List<String> phoneNumbers = [];
+  void toggleHealthRiskSelectorVisibility() {
+    setState(() {
+      _healthRiskSelectorVisible = !_healthRiskSelectorVisible;
+    });
+  }
+
+  void toggleReportWidgetVisibility() {
+    setState(() {
+      _reportWidgetVisible = !_reportWidgetVisible;
+    });
+  }
+
+  void _selectHealthRisk(String healthRisk) {
+    setState(() {
+      _healthRisk = healthRisk;
+    });
+  }
+
+  void sendSms() {
+    String response =
+        'Health Risk: $_healthRisk\nMale under 5: $_maleUnderFive\nMale over five: $_maleOverFive\nFemale under five: $_femaleUnderFive\nFemale over five: $_femaleOverFive';
+    SMSUtility.sendSMS(response, phoneNumbers);
+  }
+
+  void validateHealthRisk() {
+    if (ValidationUtils.healthRiskIsSet(1)) {
+      toggleHealthRiskSelectorVisibility();
+      toggleReportWidgetVisibility();
+    } else {
+      // show some error message
     }
   }
-  
-  class _VisibilityExampleState extends State {
-    bool _isVisible = true;
-    String _healthRisk = "";
 
-    // TODO: State for the select people widget
-    num _maleUnderFive = 0;
-    num _maleOverFive = 0;
-    num _femaleUnderFive = 0;
-    num _femaleOverFive = 0;
-    
-    // TODO: Get that data from the backend
-    List<String> phoneNumbers = []; 
-    void showToast() {
-      setState(() {
-        _isVisible = !_isVisible;
-      });
+  void validateAndSubmit() {
+    if (ValidationUtils.healthRiskIsSet(0)) {
+      sendSms();
+    } else {
+      // show some error message
     }
+  }
 
-   void _selectHealthRisk(String healthRisk) {
-      setState(() {
-        _healthRisk = healthRisk;
-      });
-    }
-
-    void sendSms(){
-      String response = 'Health Risk: $_healthRisk\nMale under 5: $_maleUnderFive\nMale over five: $_maleOverFive\nFemale under five: $_femaleUnderFive\nFemale over five: $_femaleOverFive';
-      SMSUtility.sendSMS(response, phoneNumbers);
-    }
-
-    void validateAndSubmit() {
-      if (ValidationUtils.healthRiskIsSet(0)) {
-        sendSms();
-      } else {
-        // show some error message
-      }
-    }
-  
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: 'Visibility Tutorial by Woolha.com',
-        home: Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Visibility Tutorial by Woolha.com',
+      home: Scaffold(
           appBar: AppBar(
             title: Text('Visibility Tutorial by Woolha.com'),
           ),
@@ -60,19 +77,13 @@ import 'validation.dart';
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RaisedButton(
-                  child: Text('Show/Hide Card B'),
-                  onPressed: showToast,
-                ),
                 Visibility(
-                  visible: !_isVisible,
-                  child: MyStatefulWidget(
-                    healthRisk: _healthRisk,
-                    selectHealthRisk: _selectHealthRisk
-                  )
-                ),
-                Visibility (
-                  visible: _isVisible,
+                    visible: _healthRiskSelectorVisible,
+                    child: MyStatefulWidget(
+                        healthRisk: _healthRisk,
+                        selectHealthRisk: _selectHealthRisk)),
+                Visibility(
+                  visible: _reportWidgetVisible,
                   child: Card(
                     child: new ListTile(
                       title: Center(
@@ -81,16 +92,25 @@ import 'validation.dart';
                     ),
                   ),
                 ),
-                RaisedButton(
-                  child: Text('Submit my data'),
-                  onPressed: validateAndSubmit,
+                Visibility(
+                  visible: _healthRiskSelectorVisible,
+                  child: RaisedButton(
+                    child: Text('Next'),
+                    onPressed: validateHealthRisk,
+                  ),
                 ),
+                Visibility(
+                  visible: _reportWidgetVisible,
+                  child: RaisedButton(
+                    child: Text('Submit my data'),
+                    onPressed: validateAndSubmit,
+                  ),
+                )
               ],
             ),
-          )
-        ),
-      );
-    }
+          )),
+    );
   }
-  
-  void main() => runApp(VisibilityExample());
+}
+
+void main() => runApp(VisibilityExample());
