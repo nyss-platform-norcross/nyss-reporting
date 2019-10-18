@@ -30,7 +30,7 @@ class _VisibilityExampleState extends State {
   num _femaleUnderFive = 0;
   num _femaleOverFive = 0;
 
-  // TODO: Get that data from the backend
+  // TODO: Put here the default number 
   List<String> phoneNumbers = ["+32000000000"];
   void showToast() {
     setState(() {
@@ -93,10 +93,12 @@ class _VisibilityExampleState extends State {
   }
 
   Future _getThingsOnStartup() {
-    return http.read('http://ip.jsontest.com/').then((value) {
-      setState(() {
-        phoneNumbers = jsonDecode(value);
-      });
+    return http.read('http://a79a19f3.ngrok.io/phoneNumbers').then((value) {
+      // setState(() {
+      //   phoneNumbers = jsonDecode(value).map((n) => '${n.number}') ;
+      // });
+		print(jsonDecode(value));// .map((obj) => Tab(text: obj.number)).toList());
+		print(jsonDecode(value).map((n) => '${n.number}'));
     });
   }
 }
