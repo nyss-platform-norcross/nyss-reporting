@@ -67,10 +67,10 @@ class _VisibilityExampleState extends State {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Visibility Tutorial by Woolha.com',
+      title: 'Nyss Reporting',
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Visibility Tutorial by Woolha.com'),
+            title: Text('Nyss Reporting'),
           ),
           body: Padding(
             padding: EdgeInsets.all(15.0),
