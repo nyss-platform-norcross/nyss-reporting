@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
+import "sendSMS.dart";
 
   class VisibilityExample extends StatefulWidget {
     @override
@@ -11,7 +12,17 @@ import 'package:http/http.dart' as http;
   
   class _VisibilityExampleState extends State {
     bool _isVisible = true;
-    String _healthRisk = "";
+    String _healthRisk = "0";
+
+
+    // TODO: State for the select people widget
+    num _maleUnderFive = 0;
+    num _maleOverFive = 0;
+    num _femaleUnderFive = 0;
+    num _femaleOverFive = 0;
+    
+    // TODO: Get that data from the backend
+    List<String> phoneNumbers = ["+32000000000"]; 
 
   @override
   void initState() {
@@ -20,7 +31,6 @@ import 'package:http/http.dart' as http;
     });
     super.initState();
   }
-
     void showToast() {
       setState(() {
         _isVisible = !_isVisible;
@@ -33,6 +43,11 @@ import 'package:http/http.dart' as http;
       });
     }
 
+    void sendSms(){
+      String response = '$_healthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
+      SMSUtility.sendSMS(response, phoneNumbers);
+    }
+  
     @override
     Widget build(BuildContext context) {
       return MaterialApp(
@@ -66,7 +81,11 @@ import 'package:http/http.dart' as http;
                       ),
                     ),
                   ),
-                )
+                ),
+                RaisedButton(
+                  child: Text('Submit my data'),
+                  onPressed: sendSms,
+                ),
               ],
             ),
           )
