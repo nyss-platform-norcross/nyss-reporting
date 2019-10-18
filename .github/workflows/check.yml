@@ -17,6 +17,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.9.x'
+      - run: dartfmt --set-exit-if-changed
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
