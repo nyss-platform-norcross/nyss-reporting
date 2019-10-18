@@ -11,7 +11,7 @@ import "sendSMS.dart";
   
   class _VisibilityExampleState extends State {
     bool _isVisible = true;
-    String _healthRisk = "";
+    String _healthRisk = "0";
 
     // TODO: State for the select people widget
     num _maleUnderFive = 0;
@@ -20,7 +20,7 @@ import "sendSMS.dart";
     num _femaleOverFive = 0;
     
     // TODO: Get that data from the backend
-    List<String> phoneNumbers = []; 
+    List<String> phoneNumbers = ["+32000000000"]; 
     void showToast() {
       setState(() {
         _isVisible = !_isVisible;
@@ -34,7 +34,7 @@ import "sendSMS.dart";
     }
 
     void sendSms(){
-      String response = 'Health Risk: $_healthRisk\nMale under 5: $_maleUnderFive\nMale over five: $_maleOverFive\nFemale under five: $_femaleUnderFive\nFemale over five: $_femaleOverFive';
+      String response = '$_healthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
       SMSUtility.sendSMS(response, phoneNumbers);
     }
   

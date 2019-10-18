@@ -1,5 +1,4 @@
 import 'package:flutter_sms/flutter_sms.dart';
-import 'dart:async';
 
 class SMSUtility {
 
