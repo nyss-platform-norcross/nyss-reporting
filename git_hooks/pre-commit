@@ -1,2 +1,2 @@
 #!/bin/sh
-dartfmt **/*.dart
+dartfmt -w **/*.dart
