@@ -29,7 +29,6 @@ class MyStatefulWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        new Text('Choose the symptom', style: new TextStyle(fontSize: 25.0)),
         children: healthRisks.map((item) => ListTile(
             title: Text(item.name),
             leading: Radio(
