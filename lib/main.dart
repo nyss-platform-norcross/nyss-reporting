@@ -9,6 +9,9 @@ import "sendSMS.dart";
 const String URLHealthRisks = "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
 const String URL = "https://reportingappbackendrc.herokuapp.com/";
 
+const Color RED = Color.fromARGB(200, 192, 44, 4);
+const Color GREY = Color.fromARGB(255, 245, 245, 245);
+
 class VisibilityExample extends StatefulWidget {
   @override
   _VisibilityExampleState createState() {
@@ -129,14 +132,18 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Health Risk App',
+      theme: ThemeData(
+        brightness: Brightness.light,
+        toggleableActiveColor: RED,
+      ),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(200, 192, 44, 4),
+          backgroundColor: RED,
           title: Text('Health Risk App'),
           bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
           child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Color.fromARGB(200, 245, 245, 245)),
+            data: Theme.of(context).copyWith(accentColor: GREY),
             child: Container(
               height: 48.0,
               alignment: Alignment.center,
