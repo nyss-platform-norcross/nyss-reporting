@@ -30,6 +30,7 @@ class MyStatefulWidget extends StatelessWidget {
                       groupValue: healthRisk,
                       onChanged: (int value) {
                         this.state.didChange(value);
+                        selectHealthRisk(value);
                       },
                     ))
                 .toList()),
