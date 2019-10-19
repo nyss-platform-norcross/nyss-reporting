@@ -155,49 +155,52 @@ class _VisibilityExampleState extends State
                   ),
                 ),
               )),
-          body: TabBarView(controller: _tabController, children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: FormField(
-                  initialValue: _selectedHealthRisk,
-                  builder: (FormFieldState<int> state) {
-                    return MyStatefulWidget(
-                        healthRisk: state.value,
-                        state: state,
-                        healthRisks: healthRisks,
-                        selectHealthRisk: _selectHealthRisk,
-                        nextStep: nextStep);
-                  },
-                  validator: (value) {
-                    if (value < 1) {
-                      return 'Please select a health risk!';
-                    }
-                    return null;
-                  },
+          body: TabBarView(
+              controller: _tabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: FormField(
+                      initialValue: _selectedHealthRisk,
+                      builder: (FormFieldState<int> state) {
+                        return MyStatefulWidget(
+                            healthRisk: state.value,
+                            state: state,
+                            healthRisks: healthRisks,
+                            selectHealthRisk: _selectHealthRisk,
+                            nextStep: nextStep);
+                      },
+                      validator: (value) {
+                        if (value < 1) {
+                          return 'Please select a health risk!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: PeopleCounter(
-                  maleOverFive: _maleOverFive,
-                  maleUnderFive: _maleUnderFive,
-                  femaleOverFive: _femaleOverFive,
-                  femaleUnderFive: _femaleUnderFive,
-                  addMaleUnderFive: addMaleUnderFive,
-                  addMaleOverFive: addMaleOverFive,
-                  addFemaleUnderFive: addFemaleUnderFive,
-                  addFemaleOverFive: addFemaleOverFive,
-                  decrementMaleUnderFive: decrementMaleUnderFive,
-                  decrementMaleOverFive: decrementMaleOverFive,
-                  decrementFemaleUnderFive: decrementFemaleUnderFive,
-                  decrementFemaleOverFive: decrementFemaleOverFive,
-                  sendSms: sendSms,
-                  previousStep: previousStep),
-            ),
-          ])),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: PeopleCounter(
+                      maleOverFive: _maleOverFive,
+                      maleUnderFive: _maleUnderFive,
+                      femaleOverFive: _femaleOverFive,
+                      femaleUnderFive: _femaleUnderFive,
+                      addMaleUnderFive: addMaleUnderFive,
+                      addMaleOverFive: addMaleOverFive,
+                      addFemaleUnderFive: addFemaleUnderFive,
+                      addFemaleOverFive: addFemaleOverFive,
+                      decrementMaleUnderFive: decrementMaleUnderFive,
+                      decrementMaleOverFive: decrementMaleOverFive,
+                      decrementFemaleUnderFive: decrementFemaleUnderFive,
+                      decrementFemaleOverFive: decrementFemaleOverFive,
+                      sendSms: sendSms,
+                      previousStep: previousStep),
+                ),
+              ])),
     );
   }
 
