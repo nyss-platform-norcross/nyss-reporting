@@ -8,6 +8,7 @@ import "utils/sendSMS.dart";
 import "utils/AppUtils.dart";
 import "types/PhoneType.dart";
 import 'types/HealthRisk.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class VisibilityExample extends StatefulWidget {
   @override
@@ -44,28 +45,50 @@ class _VisibilityExampleState extends State
     super.dispose();
   }
 
+  bool limitNumber(int number) {
+    if (number >= 20) {
+      Fluttertoast.showToast(
+          msg: "You have reached the limit!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: AppUtils.RED,
+          textColor: Colors.white);
+      return true;
+    }
+    return false;
+  }
+
   void addMaleUnderFive() {
-    setState(() {
-      _maleUnderFive = _maleUnderFive + 1;
-    });
+    if (!limitNumber(_maleUnderFive)) {
+      setState(() {
+        _maleUnderFive = _maleUnderFive + 1;
+      });
+    }
   }
 
   void addMaleOverFive() {
-    setState(() {
-      _maleOverFive = _maleOverFive + 1;
-    });
+    if (!limitNumber(_maleOverFive)) {
+      setState(() {
+        _maleOverFive = _maleOverFive + 1;
+      });
+    }
   }
 
   void addFemaleUnderFive() {
-    setState(() {
-      _femaleUnderFive = _femaleUnderFive + 1;
-    });
+    if (!limitNumber(_femaleUnderFive)) {
+      setState(() {
+        _femaleUnderFive = _femaleUnderFive + 1;
+      });
+    }
   }
 
   void addFemaleOverFive() {
-    setState(() {
-      _femaleOverFive = _femaleOverFive + 1;
-    });
+    if (!limitNumber(_femaleOverFive)) {
+      setState(() {
+        _femaleOverFive = _femaleOverFive + 1;
+      });
+    }
   }
 
   void decrementMaleUnderFive() {
