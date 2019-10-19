@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import "peopleCounter.dart";
 import "sendSMS.dart";
 
-const String URLHealthRisks = "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
+const String URLHealthRisks =
+    "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
 const String URL = "https://reportingappbackendrc.herokuapp.com/";
 
 class VisibilityExample extends StatefulWidget {
@@ -16,7 +17,8 @@ class VisibilityExample extends StatefulWidget {
   }
 }
 
-class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin {
+class _VisibilityExampleState extends State
+    with SingleTickerProviderStateMixin {
   int _selectedHealthRisk = 0;
   TabController _tabController;
 
@@ -28,6 +30,8 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
   num _femaleUnderFive = 0;
   num _femaleOverFive = 0;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     _getThingsOnStartup();
@@ -35,47 +39,47 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
     _tabController = TabController(vsync: this, length: 2);
   }
 
-   @override
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
 
-
-  void addMaleUnderFive(){
+  void addMaleUnderFive() {
     setState(() {
       _maleUnderFive = _maleUnderFive + 1;
     });
   }
-   void addMaleOverFive(){
+
+  void addMaleOverFive() {
     setState(() {
       _maleOverFive = _maleOverFive + 1;
     });
   }
 
- void addFemaleUnderFive(){
+  void addFemaleUnderFive() {
     setState(() {
       _femaleUnderFive = _femaleUnderFive + 1;
     });
   }
 
- void addFemaleOverFive(){
+  void addFemaleOverFive() {
     setState(() {
       _femaleOverFive = _femaleOverFive + 1;
     });
   }
 
-
-  void decrementMaleUnderFive(){
-    if(_maleUnderFive == 0 ){
+  void decrementMaleUnderFive() {
+    if (_maleUnderFive == 0) {
       return;
     }
     setState(() {
       _maleUnderFive = _maleUnderFive - 1;
     });
   }
-   void decrementMaleOverFive(){
-     if(_maleOverFive == 0 ){
+
+  void decrementMaleOverFive() {
+    if (_maleOverFive == 0) {
       return;
     }
     setState(() {
@@ -83,8 +87,8 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
     });
   }
 
- void decrementFemaleUnderFive(){
-   if(_femaleUnderFive == 0 ){
+  void decrementFemaleUnderFive() {
+    if (_femaleUnderFive == 0) {
       return;
     }
     setState(() {
@@ -92,8 +96,8 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
     });
   }
 
- void decrementFemaleOverFive(){
-   if(_femaleOverFive == 0 ){
+  void decrementFemaleOverFive() {
+    if (_femaleOverFive == 0) {
       return;
     }
     setState(() {
@@ -102,13 +106,17 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
   }
 
   void nextStep() {
+    if (!_formKey.currentState.validate()) {
+      // TODO: show error message
+      return;
+    }
     final int newIndex = _tabController.index + 1;
     if (newIndex < 0 || newIndex >= _tabController.length) return;
     _tabController.animateTo(newIndex);
   }
 
-   void previousStep() {
-    final int newIndex = _tabController.index -1;
+  void previousStep() {
+    final int newIndex = _tabController.index - 1;
     if (newIndex < 0 || newIndex >= _tabController.length) return;
     _tabController.animateTo(newIndex);
   }
@@ -130,71 +138,76 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
     return MaterialApp(
       title: 'Health Risk App',
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(200, 192, 44, 4),
-          title: Text('Health Risk App'),
-          bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48.0),
-          child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Color.fromARGB(200, 245, 245, 245)),
-            child: Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: TabPageSelector(controller: _tabController),
+          appBar: AppBar(
+              backgroundColor: Color.fromARGB(200, 192, 44, 4),
+              title: Text('Health Risk App'),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(48.0),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                      accentColor: Color.fromARGB(200, 245, 245, 245)),
+                  child: Container(
+                    height: 48.0,
+                    alignment: Alignment.center,
+                    child: TabPageSelector(controller: _tabController),
+                  ),
+                ),
+              )),
+          body: TabBarView(controller: _tabController, children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: FormField(
+                  initialValue: _selectedHealthRisk,
+                  builder: (FormFieldState<int> state) {
+                    return MyStatefulWidget(
+                        healthRisk: state.value,
+                        state: state,
+                        healthRisks: healthRisks,
+                        selectHealthRisk: _selectHealthRisk,
+                        nextStep: nextStep);
+                  },
+                  validator: (value) {
+                    if (value < 1) {
+                      return 'Please select a health risk!';
+                    }
+                    return null;
+                  },
+                ),
+              ),
             ),
-          ),
-        )
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: MyStatefulWidget(
-              healthRisk: _selectedHealthRisk,
-              healthRisks: healthRisks,
-              selectHealthRisk: _selectHealthRisk,
-              nextStep: nextStep
-            )
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: PeopleCounter(
-              maleOverFive: _maleOverFive,
-              maleUnderFive: _maleUnderFive,
-              femaleOverFive: _femaleOverFive,
-              femaleUnderFive: _femaleUnderFive,
-              addMaleUnderFive: addMaleUnderFive,
-              addMaleOverFive: addMaleOverFive,
-              addFemaleUnderFive: addFemaleUnderFive,
-              addFemaleOverFive: addFemaleOverFive,
-              decrementMaleUnderFive: decrementMaleUnderFive,
-              decrementMaleOverFive: decrementMaleOverFive,
-              decrementFemaleUnderFive: decrementFemaleUnderFive,
-              decrementFemaleOverFive: decrementFemaleOverFive,
-              sendSms: sendSms,
-              previousStep: previousStep
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: PeopleCounter(
+                  maleOverFive: _maleOverFive,
+                  maleUnderFive: _maleUnderFive,
+                  femaleOverFive: _femaleOverFive,
+                  femaleUnderFive: _femaleUnderFive,
+                  addMaleUnderFive: addMaleUnderFive,
+                  addMaleOverFive: addMaleOverFive,
+                  addFemaleUnderFive: addFemaleUnderFive,
+                  addFemaleOverFive: addFemaleOverFive,
+                  decrementMaleUnderFive: decrementMaleUnderFive,
+                  decrementMaleOverFive: decrementMaleOverFive,
+                  decrementFemaleUnderFive: decrementFemaleUnderFive,
+                  decrementFemaleOverFive: decrementFemaleOverFive,
+                  sendSms: sendSms,
+                  previousStep: previousStep),
             ),
-          ),
-        ]
-      )
-    ),
-  );
-}
+          ])),
+    );
+  }
 
   void _getThingsOnStartup() {
-    http
-        .read('${URL}phoneNumbers')
-        .then((value) {
+    http.read('${URL}phoneNumbers').then((value) {
       setState(() {
         phoneNumbers = jsonDecode(value)
             .map<String>((n) => Phone.fromJson(n).number)
             .toList();
       });
     });
-    http
-        .read(URLHealthRisks)
-        .then((value) {
+    http.read(URLHealthRisks).then((value) {
       setState(() {
         healthRisks = jsonDecode(value)
             .map<HealthRisk>((n) => HealthRisk.fromJson(n))
