@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyss_reporting/errorTextField.dart';
+import 'package:nyss_reporting/numberOfPeople.dart';
 import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
 import "peopleCounter.dart";
@@ -29,10 +30,7 @@ class _VisibilityExampleState extends State
   List<String> phoneNumbers = ["+32000000000"];
   List<HealthRisk> healthRisks = new List<HealthRisk>();
 
-  num _maleUnderFive = 0;
-  num _maleOverFive = 0;
-  num _femaleUnderFive = 0;
-  num _femaleOverFive = 0;
+  NumberOfPeople _numberOfPeople = new NumberOfPeople();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -41,6 +39,10 @@ class _VisibilityExampleState extends State
     _getThingsOnStartup();
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
+    _numberOfPeople.maleUnder5 = 0;
+    _numberOfPeople.male5OrOlder = 0;
+    _numberOfPeople.female5OrOlder = 0;
+    _numberOfPeople.femaleUnder5 = 0;
   }
 
   @override
@@ -51,61 +53,61 @@ class _VisibilityExampleState extends State
 
   void addMaleUnderFive() {
     setState(() {
-      _maleUnderFive = _maleUnderFive + 1;
+      _numberOfPeople.maleUnder5 += 1;
     });
   }
 
   void addMaleOverFive() {
     setState(() {
-      _maleOverFive = _maleOverFive + 1;
+      _numberOfPeople.male5OrOlder += 1;
     });
   }
 
   void addFemaleUnderFive() {
     setState(() {
-      _femaleUnderFive = _femaleUnderFive + 1;
+      _numberOfPeople.femaleUnder5 += 1;
     });
   }
 
   void addFemaleOverFive() {
     setState(() {
-      _femaleOverFive = _femaleOverFive + 1;
+      _numberOfPeople.female5OrOlder += 1;
     });
   }
 
   void decrementMaleUnderFive() {
-    if (_maleUnderFive == 0) {
+    if (_numberOfPeople.maleUnder5 == 0) {
       return;
     }
     setState(() {
-      _maleUnderFive = _maleUnderFive - 1;
+      _numberOfPeople.maleUnder5 -= 1;
     });
   }
 
   void decrementMaleOverFive() {
-    if (_maleOverFive == 0) {
+    if (_numberOfPeople.male5OrOlder == 0) {
       return;
     }
     setState(() {
-      _maleOverFive = _maleOverFive - 1;
+      _numberOfPeople.male5OrOlder -= 1;
     });
   }
 
   void decrementFemaleUnderFive() {
-    if (_femaleUnderFive == 0) {
+    if (_numberOfPeople.femaleUnder5 == 0) {
       return;
     }
     setState(() {
-      _femaleUnderFive = _femaleUnderFive - 1;
+      _numberOfPeople.femaleUnder5 -= 1;
     });
   }
 
   void decrementFemaleOverFive() {
-    if (_femaleOverFive == 0) {
+    if (_numberOfPeople.female5OrOlder == 0) {
       return;
     }
     setState(() {
-      _femaleOverFive = _femaleOverFive - 1;
+      _numberOfPeople.female5OrOlder -= 1;
     });
   }
 
@@ -129,9 +131,17 @@ class _VisibilityExampleState extends State
     });
   }
 
+  bool validateNumberOfPeople(NumberOfPeople value) {
+    return (value.male5OrOlder > 0) | (value.maleUnder5 > 0) | (value.femaleUnder5 > 0) | (value.female5OrOlder > 0);
+  }
+
   void sendSms() {
+    if (!_formKey.currentState.validate()) {
+      // TODO: add toast message
+      return;
+    }
     String response =
-        '$_selectedHealthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
+        '$_selectedHealthRisk#$_numberOfPeople.maleUnder5#$_numberOfPeople.male5OrOlder#$_numberOfPeople.femaleUnder5#$_numberOfPeople.female5OrOlder';
     SMSUtility.sendSMS(response, phoneNumbers);
   }
 
@@ -187,23 +197,34 @@ class _VisibilityExampleState extends State
               ])),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: PeopleCounter(
-                  maleOverFive: _maleOverFive,
-                  maleUnderFive: _maleUnderFive,
-                  femaleOverFive: _femaleOverFive,
-                  femaleUnderFive: _femaleUnderFive,
-                  addMaleUnderFive: addMaleUnderFive,
-                  addMaleOverFive: addMaleOverFive,
-                  addFemaleUnderFive: addFemaleUnderFive,
-                  addFemaleOverFive: addFemaleOverFive,
-                  decrementMaleUnderFive: decrementMaleUnderFive,
-                  decrementMaleOverFive: decrementMaleOverFive,
-                  decrementFemaleUnderFive: decrementFemaleUnderFive,
-                  decrementFemaleOverFive: decrementFemaleOverFive,
-                  sendSms: sendSms,
-                  previousStep: previousStep),
-            ),
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: FormField(
+                    initialValue: _numberOfPeople,
+                    builder: (FormFieldState<NumberOfPeople> state) {
+                      return PeopleCounter(
+                        numberOfPeople: _numberOfPeople,
+                        state: state,
+                        addMaleUnderFive: addMaleUnderFive,
+                        addMaleOverFive: addMaleOverFive,
+                        addFemaleUnderFive: addFemaleUnderFive,
+                        addFemaleOverFive: addFemaleOverFive,
+                        decrementMaleUnderFive: decrementMaleUnderFive,
+                        decrementMaleOverFive: decrementMaleOverFive,
+                        decrementFemaleUnderFive: decrementFemaleUnderFive,
+                        decrementFemaleOverFive: decrementFemaleOverFive,
+                        sendSms: sendSms,
+                        previousStep: previousStep);
+                    },
+                    validator: (value) {
+                      if (validateNumberOfPeople(value)) {
+                        return 'Please add a case to report';
+                      }
+                      return null;
+                    },
+                  ),
+                ))
           ])),
     );
   }
