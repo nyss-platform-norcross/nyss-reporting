@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import "peopleCounter.dart";
 import "sendSMS.dart";
 
+const String URLHealthRisks = "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
 const String URL = "https://reportingappbackendrc.herokuapp.com/";
 
 class VisibilityExample extends StatefulWidget {
@@ -15,15 +16,13 @@ class VisibilityExample extends StatefulWidget {
   }
 }
 
-class _VisibilityExampleState extends State {
-  bool _isVisible = true;
+class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin {
   int _selectedHealthRisk = 0;
+  TabController _tabController;
 
-  // TODO: Put here the default number
   List<String> phoneNumbers = ["+32000000000"];
   List<HealthRisk> healthRisks = new List<HealthRisk>();
 
-  // TODO: State for the select people widget
   num _maleUnderFive = 0;
   num _maleOverFive = 0;
   num _femaleUnderFive = 0;
@@ -33,7 +32,15 @@ class _VisibilityExampleState extends State {
   void initState() {
     _getThingsOnStartup();
     super.initState();
+    _tabController = TabController(vsync: this, length: 2);
   }
+
+   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
 
   void addMaleUnderFive(){
     setState(() {
@@ -94,10 +101,16 @@ class _VisibilityExampleState extends State {
     });
   }
 
-  void showToast() {
-    setState(() {
-      _isVisible = !_isVisible;
-    });
+  void nextStep() {
+    final int newIndex = _tabController.index + 1;
+    if (newIndex < 0 || newIndex >= _tabController.length) return;
+    _tabController.animateTo(newIndex);
+  }
+
+   void previousStep() {
+    final int newIndex = _tabController.index -1;
+    if (newIndex < 0 || newIndex >= _tabController.length) return;
+    _tabController.animateTo(newIndex);
   }
 
   void _selectHealthRisk(int selectedHealthRisk) {
@@ -117,47 +130,57 @@ class _VisibilityExampleState extends State {
     return MaterialApp(
       title: 'Health Risk App',
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Health Risk App'),
-          ),
-          body: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Visibility(
-                    visible: _isVisible,
-                    child: MyStatefulWidget(
-                        healthRisk: _selectedHealthRisk,
-                        healthRisks: healthRisks,
-                        selectHealthRisk: _selectHealthRisk)),
-                Visibility(
-                  visible: !_isVisible,
-                  child: PeopleCounter(
-                    maleOverFive: _maleOverFive,
-                    maleUnderFive: _maleUnderFive,
-                    femaleOverFive: _femaleOverFive,
-                    femaleUnderFive: _femaleUnderFive,
-                    addMaleUnderFive: addMaleUnderFive,
-                    addMaleOverFive: addMaleOverFive,
-                    addFemaleUnderFive: addFemaleUnderFive,
-                    addFemaleOverFive: addFemaleOverFive,
-                    decrementMaleUnderFive: decrementMaleUnderFive,
-                    decrementMaleOverFive: decrementMaleOverFive,
-                    decrementFemaleUnderFive: decrementFemaleUnderFive,
-                    decrementFemaleOverFive: decrementFemaleOverFive,
-                    sendSms: sendSms
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('Next'),
-                  onPressed: showToast,
-                ),
-              ],
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(200, 192, 44, 4),
+          title: Text('Health Risk App'),
+          bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48.0),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Color.fromARGB(200, 245, 245, 245)),
+            child: Container(
+              height: 48.0,
+              alignment: Alignment.center,
+              child: TabPageSelector(controller: _tabController),
             ),
-          )),
-    );
-  }
+          ),
+        )
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: MyStatefulWidget(
+              healthRisk: _selectedHealthRisk,
+              healthRisks: healthRisks,
+              selectHealthRisk: _selectHealthRisk,
+              nextStep: nextStep
+            )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: PeopleCounter(
+              maleOverFive: _maleOverFive,
+              maleUnderFive: _maleUnderFive,
+              femaleOverFive: _femaleOverFive,
+              femaleUnderFive: _femaleUnderFive,
+              addMaleUnderFive: addMaleUnderFive,
+              addMaleOverFive: addMaleOverFive,
+              addFemaleUnderFive: addFemaleUnderFive,
+              addFemaleOverFive: addFemaleOverFive,
+              decrementMaleUnderFive: decrementMaleUnderFive,
+              decrementMaleOverFive: decrementMaleOverFive,
+              decrementFemaleUnderFive: decrementFemaleUnderFive,
+              decrementFemaleOverFive: decrementFemaleOverFive,
+              sendSms: sendSms,
+              previousStep: previousStep
+            ),
+          ),
+        ]
+      )
+    ),
+  );
+}
 
   void _getThingsOnStartup() {
     http
@@ -170,7 +193,7 @@ class _VisibilityExampleState extends State {
       });
     });
     http
-        .read('${URL}healthRisks')
+        .read(URLHealthRisks)
         .then((value) {
       setState(() {
         healthRisks = jsonDecode(value)
@@ -205,8 +228,8 @@ class HealthRisk {
 
   factory HealthRisk.fromJson(Map<String, dynamic> json) {
     return HealthRisk(
-      id: json['Id'],
-      name: json['Name'],
+      id: int.parse(json['code']),
+      name: json['displayName'],
     );
   }
 }

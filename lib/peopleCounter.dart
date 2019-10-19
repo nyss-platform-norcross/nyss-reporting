@@ -16,7 +16,7 @@ class PeopleCounter extends StatelessWidget {
       @required this.decrementFemaleUnderFive,
       @required this.decrementFemaleOverFive,
       @required this.sendSms,
-
+      @required this.previousStep
       })
       : super(key: key);
 
@@ -36,6 +36,7 @@ class PeopleCounter extends StatelessWidget {
   final Function decrementFemaleOverFive;
 
   final Function sendSms;
+  final Function previousStep;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class PeopleCounter extends StatelessWidget {
             new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Male > 5', style: new TextStyle(fontSize: 25.0)),
+              new Text('Male >= 5', style: new TextStyle(fontSize: 25.0)),
               new FloatingActionButton(
                 onPressed: addMaleOverFive,
                 child: new Icon(
@@ -116,7 +117,7 @@ class PeopleCounter extends StatelessWidget {
             new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Female > 5', style: new TextStyle(fontSize: 25.0)),
+              new Text('Female >= 5', style: new TextStyle(fontSize: 25.0)),
 
               new FloatingActionButton(
                 onPressed: addFemaleOverFive,
@@ -136,11 +137,20 @@ class PeopleCounter extends StatelessWidget {
               ),
             ],
           ),
-            RaisedButton(
-              child: Text('Submit my data'),
-              onPressed: sendSms,
-            ),
-          ]
+          Row( 
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[             
+              RaisedButton(
+                child: Text('Go back'),
+                onPressed: previousStep,
+              ),
+              RaisedButton(
+                child: Text('Submit my data'),
+                onPressed: sendSms,
+              ),
+            ],
+          )
+        ]
         ),
       )
     );
