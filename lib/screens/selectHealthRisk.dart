@@ -8,14 +8,12 @@ class MyStatefulWidget extends StatelessWidget {
       @required this.healthRisk,
       @required this.selectHealthRisk,
       @required this.healthRisks,
-      @required this.state,
       @required this.nextStep})
       : super(key: key);
 
   final int healthRisk;
   final List<HealthRisk> healthRisks;
   final ValueChanged<int> selectHealthRisk;
-  final FormFieldState<int> state;
   final Function nextStep;
 
   Widget build(BuildContext context) {
@@ -29,7 +27,6 @@ class MyStatefulWidget extends StatelessWidget {
                       value: item.id,
                       groupValue: healthRisk,
                       onChanged: (int value) {
-                        this.state.didChange(value);
                         selectHealthRisk(value);
                       },
                     ))

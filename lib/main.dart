@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:nyss_reporting/types/numberOfPeople.dart';
 
 import "screens/selectHealthRisk.dart";
 import "screens/peopleCounter.dart";
@@ -25,10 +26,7 @@ class _VisibilityExampleState extends State
   List<String> phoneNumbers = ["+32000000000"];
   List<HealthRisk> healthRisks = new List<HealthRisk>();
 
-  num _maleUnderFive = 0;
-  num _maleOverFive = 0;
-  num _femaleUnderFive = 0;
-  num _femaleOverFive = 0;
+  NumberOfPeople _numberOfPeople = new NumberOfPeople();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -37,6 +35,10 @@ class _VisibilityExampleState extends State
     _getThingsOnStartup();
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
+    _numberOfPeople.maleUnder5 = 0;
+    _numberOfPeople.male5OrOlder = 0;
+    _numberOfPeople.female5OrOlder = 0;
+    _numberOfPeople.femaleUnder5 = 0;
   }
 
   @override
@@ -60,78 +62,74 @@ class _VisibilityExampleState extends State
   }
 
   void addMaleUnderFive() {
-    if (!limitNumber(_maleUnderFive)) {
+    if (!limitNumber(_numberOfPeople.maleUnder5)) {
       setState(() {
-        _maleUnderFive = _maleUnderFive + 1;
+        _numberOfPeople.maleUnder5 += 1;
       });
     }
   }
 
   void addMaleOverFive() {
-    if (!limitNumber(_maleOverFive)) {
+    if (!limitNumber(_numberOfPeople.male5OrOlder)) {
       setState(() {
-        _maleOverFive = _maleOverFive + 1;
+        _numberOfPeople.male5OrOlder += 1;
       });
     }
   }
 
   void addFemaleUnderFive() {
-    if (!limitNumber(_femaleUnderFive)) {
+    if (!limitNumber(_numberOfPeople.femaleUnder5)) {
       setState(() {
-        _femaleUnderFive = _femaleUnderFive + 1;
+        _numberOfPeople.femaleUnder5 += 1;
       });
     }
   }
 
   void addFemaleOverFive() {
-    if (!limitNumber(_femaleOverFive)) {
+    if (!limitNumber(_numberOfPeople.female5OrOlder)) {
       setState(() {
-        _femaleOverFive = _femaleOverFive + 1;
+        _numberOfPeople.female5OrOlder += 1;
       });
     }
   }
 
   void decrementMaleUnderFive() {
-    if (_maleUnderFive == 0) {
+    if (_numberOfPeople.maleUnder5 == 0) {
       return;
     }
     setState(() {
-      _maleUnderFive = _maleUnderFive - 1;
+      _numberOfPeople.maleUnder5 -= 1;
     });
   }
 
   void decrementMaleOverFive() {
-    if (_maleOverFive == 0) {
+    if (_numberOfPeople.male5OrOlder == 0) {
       return;
     }
     setState(() {
-      _maleOverFive = _maleOverFive - 1;
+      _numberOfPeople.male5OrOlder -= 1;
     });
   }
 
   void decrementFemaleUnderFive() {
-    if (_femaleUnderFive == 0) {
+    if (_numberOfPeople.femaleUnder5 == 0) {
       return;
     }
     setState(() {
-      _femaleUnderFive = _femaleUnderFive - 1;
+      _numberOfPeople.femaleUnder5 -= 1;
     });
   }
 
   void decrementFemaleOverFive() {
-    if (_femaleOverFive == 0) {
+    if (_numberOfPeople.female5OrOlder == 0) {
       return;
     }
     setState(() {
-      _femaleOverFive = _femaleOverFive - 1;
+      _numberOfPeople.female5OrOlder -= 1;
     });
   }
 
   void nextStep() {
-    if (!_formKey.currentState.validate()) {
-      // TODO: show error message
-      return;
-    }
     final int newIndex = _tabController.index + 1;
     if (newIndex < 0 || newIndex >= _tabController.length) return;
     _tabController.animateTo(newIndex);
@@ -149,9 +147,25 @@ class _VisibilityExampleState extends State
     });
   }
 
+  bool validateNumberOfPeople(NumberOfPeople value) {
+    return (value.male5OrOlder > 0) |
+        (value.maleUnder5 > 0) |
+        (value.femaleUnder5 > 0) |
+        (value.female5OrOlder > 0);
+  }
+
   void sendSms() {
+    if (_formKey.currentState.validate()) {
+      // TODO: add toast message
+      return;
+    }
+    String maleUnder5 = _numberOfPeople.maleUnder5.toString();
+    String male5OrOlder = _numberOfPeople.male5OrOlder.toString();
+    String femaleUnder5 = _numberOfPeople.femaleUnder5.toString();
+    String female5OrOlder = _numberOfPeople.female5OrOlder.toString();
+
     String response =
-        '$_selectedHealthRisk#$_maleUnderFive#$_maleOverFive#$_femaleUnderFive#$_femaleOverFive';
+        '$_selectedHealthRisk#$maleUnder5#$male5OrOlder#$femaleUnder5#$female5OrOlder';
     SMSUtility.sendSMS(response, phoneNumbers);
   }
 
@@ -184,45 +198,42 @@ class _VisibilityExampleState extends State
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Form(
-                    key: _formKey,
-                    child: FormField(
-                      initialValue: _selectedHealthRisk,
-                      builder: (FormFieldState<int> state) {
-                        return MyStatefulWidget(
-                            healthRisk: state.value,
-                            state: state,
-                            healthRisks: healthRisks,
-                            selectHealthRisk: _selectHealthRisk,
-                            nextStep: nextStep);
-                      },
-                      validator: (value) {
-                        if (value < 1) {
-                          return 'Please select a health risk!';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
+                  child: MyStatefulWidget(
+                      healthRisk: _selectedHealthRisk,
+                      healthRisks: healthRisks,
+                      selectHealthRisk: _selectHealthRisk,
+                      nextStep: nextStep),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: PeopleCounter(
-                      maleOverFive: _maleOverFive,
-                      maleUnderFive: _maleUnderFive,
-                      femaleOverFive: _femaleOverFive,
-                      femaleUnderFive: _femaleUnderFive,
-                      addMaleUnderFive: addMaleUnderFive,
-                      addMaleOverFive: addMaleOverFive,
-                      addFemaleUnderFive: addFemaleUnderFive,
-                      addFemaleOverFive: addFemaleOverFive,
-                      decrementMaleUnderFive: decrementMaleUnderFive,
-                      decrementMaleOverFive: decrementMaleOverFive,
-                      decrementFemaleUnderFive: decrementFemaleUnderFive,
-                      decrementFemaleOverFive: decrementFemaleOverFive,
-                      sendSms: sendSms,
-                      previousStep: previousStep),
-                ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: FormField(
+                        initialValue: _numberOfPeople,
+                        builder: (FormFieldState<NumberOfPeople> state) {
+                          return PeopleCounter(
+                              numberOfPeople: _numberOfPeople,
+                              state: state,
+                              addMaleUnderFive: addMaleUnderFive,
+                              addMaleOverFive: addMaleOverFive,
+                              addFemaleUnderFive: addFemaleUnderFive,
+                              addFemaleOverFive: addFemaleOverFive,
+                              decrementMaleUnderFive: decrementMaleUnderFive,
+                              decrementMaleOverFive: decrementMaleOverFive,
+                              decrementFemaleUnderFive:
+                                  decrementFemaleUnderFive,
+                              decrementFemaleOverFive: decrementFemaleOverFive,
+                              sendSms: sendSms,
+                              previousStep: previousStep);
+                        },
+                        validator: (value) {
+                          if (validateNumberOfPeople(value)) {
+                            return 'Please add a case to report';
+                          }
+                          return null;
+                        },
+                      ),
+                    )),
               ])),
     );
   }

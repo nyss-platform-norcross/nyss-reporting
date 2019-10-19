@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nyss_reporting/types/numberOfPeople.dart';
 import '../components/outlineButton.dart';
 import "../utils/AppUtils.dart";
 
 class PeopleCounter extends StatelessWidget {
   PeopleCounter(
       {Key key,
-      @required this.maleUnderFive,
-      @required this.maleOverFive,
-      @required this.femaleUnderFive,
-      @required this.femaleOverFive,
+      @required this.numberOfPeople,
+      @required this.state,
       @required this.addMaleUnderFive,
       @required this.addMaleOverFive,
       @required this.addFemaleUnderFive,
@@ -21,10 +20,8 @@ class PeopleCounter extends StatelessWidget {
       @required this.previousStep})
       : super(key: key);
 
-  final num maleUnderFive;
-  final num maleOverFive;
-  final num femaleUnderFive;
-  final num femaleOverFive;
+  final NumberOfPeople numberOfPeople;
+  final FormFieldState<NumberOfPeople> state;
 
   final Function addMaleUnderFive;
   final Function addMaleOverFive;
@@ -61,7 +58,7 @@ class PeopleCounter extends StatelessWidget {
                       ),
                       backgroundColor: Colors.white,
                     ),
-                    new Text('$maleUnderFive',
+                    new Text(numberOfPeople.maleUnder5.toString(),
                         style: new TextStyle(fontSize: 60.0)),
                     new FloatingActionButton(
                       onPressed: addMaleUnderFive,
@@ -87,7 +84,7 @@ class PeopleCounter extends StatelessWidget {
                         ),
                         backgroundColor: Colors.white,
                       ),
-                      new Text('$maleOverFive',
+                      new Text(numberOfPeople.male5OrOlder.toString(),
                           style: new TextStyle(fontSize: 60.0)),
                       new FloatingActionButton(
                         onPressed: addMaleOverFive,
@@ -112,7 +109,7 @@ class PeopleCounter extends StatelessWidget {
                         ),
                         backgroundColor: Colors.white,
                       ),
-                      new Text('$femaleUnderFive',
+                      new Text(numberOfPeople.femaleUnder5.toString(),
                           style: new TextStyle(fontSize: 60.0)),
                       new FloatingActionButton(
                         onPressed: addFemaleUnderFive,
@@ -137,7 +134,7 @@ class PeopleCounter extends StatelessWidget {
                         ),
                         backgroundColor: Colors.white,
                       ),
-                      new Text('$femaleOverFive',
+                      new Text(numberOfPeople.female5OrOlder.toString(),
                           style: new TextStyle(fontSize: 60.0)),
                       new FloatingActionButton(
                         onPressed: addFemaleOverFive,
