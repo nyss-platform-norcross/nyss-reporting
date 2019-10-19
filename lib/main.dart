@@ -23,7 +23,7 @@ class _VisibilityExampleState extends State
   int _selectedHealthRisk = 0;
   TabController _tabController;
 
-  List<String> phoneNumbers = ["+32000000000"];
+  List<String> phoneNumbers = ["+4745910137"];
   List<HealthRisk> healthRisks = new List<HealthRisk>();
 
   NumberOfPeople _numberOfPeople = new NumberOfPeople();
