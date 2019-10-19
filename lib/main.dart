@@ -139,7 +139,7 @@ class _VisibilityExampleState extends State
   }
 
   void sendSms() {
-    if (!_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {
       // TODO: add toast message
       return;
     }
