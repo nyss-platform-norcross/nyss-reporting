@@ -159,8 +159,13 @@ class _VisibilityExampleState extends State
       // TODO: add toast message
       return;
     }
+    int maleUnder5 = _numberOfPeople.maleUnder5;
+    int male5OrOlder = _numberOfPeople.male5OrOlder;
+    int femaleUnder5 = _numberOfPeople.femaleUnder5;
+    int female5OrOlder = _numberOfPeople.female5OrOlder;
+    
     String response =
-        '$_selectedHealthRisk#$_numberOfPeople.maleUnder5#$_numberOfPeople.male5OrOlder#$_numberOfPeople.femaleUnder5#$_numberOfPeople.female5OrOlder';
+        '$_selectedHealthRisk#$maleUnder5#$male5OrOlder#$femaleUnder5#$female5OrOlder';
     SMSUtility.sendSMS(response, phoneNumbers);
   }
 
