@@ -14,9 +14,7 @@ class PeopleCounter extends StatelessWidget {
       @required this.decrementMaleUnderFive,
       @required this.decrementMaleOverFive,
       @required this.decrementFemaleUnderFive,
-      @required this.decrementFemaleOverFive,
-      @required this.sendSms,
-
+      @required this.decrementFemaleOverFive
       })
       : super(key: key);
 
@@ -34,8 +32,6 @@ class PeopleCounter extends StatelessWidget {
   final Function decrementMaleOverFive;
   final Function decrementFemaleUnderFive;
   final Function decrementFemaleOverFive;
-
-  final Function sendSms;
 
   @override
   Widget build(BuildContext context) {
@@ -135,11 +131,7 @@ class PeopleCounter extends StatelessWidget {
                 backgroundColor: Colors.white,
               ),
             ],
-          ),
-            RaisedButton(
-              child: Text('Submit my data'),
-              onPressed: sendSms,
-            ),
+          )
           ]
         ),
       )

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import "selectHealthRisk.dart";
@@ -122,7 +123,7 @@ class _VisibilityExampleState extends State {
   }
 
   void validateHealthRisk() {
-    if (ValidationUtils.healthRiskIsSet(1)) {
+    if (ValidationUtils.healthRiskIsSet(_selectedHealthRisk)) {
       toggleHealthRiskSelectorVisibility();
       toggleReportWidgetVisibility();
     } else {
@@ -131,7 +132,7 @@ class _VisibilityExampleState extends State {
   }
 
   void validateAndSubmit() {
-    if (ValidationUtils.healthRiskIsSet(0)) {
+    if (ValidationUtils.numberOfPeopleSelected(_maleUnderFive, _maleOverFive, _femaleUnderFive, _femaleOverFive)) {
       sendSms();
     } else {
       // show some error message
@@ -182,7 +183,7 @@ class _VisibilityExampleState extends State {
                 Visibility(
                   visible: _reportWidgetVisible,
                   child: RaisedButton(
-                    child: Text('Submit my data'),
+                    child: Text('Send report'),
                     onPressed: validateAndSubmit,
                   ),
                 )
