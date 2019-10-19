@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
-import "peopleCounter.dart";
-import "sendSMS.dart";
+import 'package:flutter/material.dart';
+
+import "screens/selectHealthRisk.dart";
+import "screens/peopleCounter.dart";
+import "utils/sendSMS.dart";
 import "utils/AppUtils.dart";
 import "types/PhoneType.dart";
 import 'types/HealthRisk.dart';

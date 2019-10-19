@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'utils/AppUtils.dart';
+import '../utils/AppUtils.dart';
 
 class StyledOutlineButton extends StatelessWidget{
   StyledOutlineButton(

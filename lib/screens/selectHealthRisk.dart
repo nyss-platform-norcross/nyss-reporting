@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'types/HealthRisk.dart';
-import 'outlineButton.dart';
+import '../types/HealthRisk.dart';
+import '../components/outlineButton.dart';
+
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget(
       {Key key, @required this.healthRisk, @required this.selectHealthRisk, @required this.healthRisks, @required this.nextStep})

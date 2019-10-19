@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'outlineButton.dart';
-import "utils/AppUtils.dart";
+import '../components/outlineButton.dart';
+import "../utils/AppUtils.dart";
+
 class PeopleCounter extends StatelessWidget {
   PeopleCounter(
       {Key key,
