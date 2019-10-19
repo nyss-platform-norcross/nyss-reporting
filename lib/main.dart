@@ -1,17 +1,13 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
-import "peopleCounter.dart";
-import "sendSMS.dart";
+import 'package:flutter/material.dart';
 
-const String URLHealthRisks =
-    "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
-const String URL = "https://reportingappbackendrc.herokuapp.com/";
-
-const Color RED = Color.fromARGB(200, 192, 44, 4);
-const Color GREY = Color.fromARGB(255, 245, 245, 245);
+import "screens/selectHealthRisk.dart";
+import "screens/peopleCounter.dart";
+import "utils/sendSMS.dart";
+import "utils/AppUtils.dart";
+import "types/PhoneType.dart";
+import 'types/HealthRisk.dart';
 
 class VisibilityExample extends StatefulWidget {
   @override
@@ -142,17 +138,16 @@ class _VisibilityExampleState extends State
       title: 'Health Risk App',
       theme: ThemeData(
         brightness: Brightness.light,
-        toggleableActiveColor: RED,
+        toggleableActiveColor: AppUtils.RED,
       ),
       home: Scaffold(
           appBar: AppBar(
-              backgroundColor: Color.fromARGB(200, 192, 44, 4),
+              backgroundColor: AppUtils.RED,
               title: Text('Health Risk App'),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(48.0),
                 child: Theme(
-                  data: Theme.of(context).copyWith(
-                      accentColor: Color.fromARGB(200, 245, 245, 245)),
+                  data: Theme.of(context).copyWith(accentColor: AppUtils.GREY),
                   child: Container(
                     height: 48.0,
                     alignment: Alignment.center,
@@ -207,14 +202,14 @@ class _VisibilityExampleState extends State
   }
 
   void _getThingsOnStartup() {
-    http.read('${URL}phoneNumbers').then((value) {
+    http.read('${AppUtils.URL}phoneNumbers').then((value) {
       setState(() {
         phoneNumbers = jsonDecode(value)
             .map<String>((n) => Phone.fromJson(n).number)
             .toList();
       });
     });
-    http.read(URLHealthRisks).then((value) {
+    http.read(AppUtils.URLHealthRisks).then((value) {
       setState(() {
         healthRisks = jsonDecode(value)
             .map<HealthRisk>((n) => HealthRisk.fromJson(n))
@@ -225,31 +220,3 @@ class _VisibilityExampleState extends State
 }
 
 void main() => runApp(VisibilityExample());
-
-class Phone {
-  final String number;
-  final String name;
-
-  Phone({this.name, this.number});
-
-  factory Phone.fromJson(Map<String, dynamic> json) {
-    return Phone(
-      number: json['number'],
-      name: json['name'],
-    );
-  }
-}
-
-class HealthRisk {
-  final int id;
-  final String name;
-
-  HealthRisk({this.name, this.id});
-
-  factory HealthRisk.fromJson(Map<String, dynamic> json) {
-    return HealthRisk(
-      id: int.parse(json['code']),
-      name: json['displayName'],
-    );
-  }
-}

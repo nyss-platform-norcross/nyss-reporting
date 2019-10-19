@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import '../utils/AppUtils.dart';
 
 class StyledOutlineButton extends StatelessWidget{
   StyledOutlineButton(
       {Key key,
       @required this.title,
       @required this.onPressed,
-      this.outlineColor: RED
+      this.outlineColor: AppUtils.RED
       })
       : super(key: key);
 

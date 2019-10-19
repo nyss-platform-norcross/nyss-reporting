@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'outlineButton.dart';
-import 'main.dart';
+import '../components/outlineButton.dart';
+import "../utils/AppUtils.dart";
+
 class PeopleCounter extends StatelessWidget {
   PeopleCounter(
       {Key key,
@@ -144,7 +145,7 @@ class PeopleCounter extends StatelessWidget {
               StyledOutlineButton(
                 title: 'Go back',
                 onPressed: previousStep,
-                outlineColor: GREY,
+                outlineColor: AppUtils.GREY,
               ), 
               StyledOutlineButton(
                 title: 'Sybmit my data',
