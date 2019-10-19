@@ -136,6 +136,9 @@ class _VisibilityExampleState extends State
   }
 
   void previousStep() {
+    setState(() {
+      _selectedHealthRisk = 0;
+    });
     final int newIndex = _tabController.index - 1;
     if (newIndex < 0 || newIndex >= _tabController.length) return;
     _tabController.animateTo(newIndex);
@@ -145,6 +148,7 @@ class _VisibilityExampleState extends State
     setState(() {
       _selectedHealthRisk = selectedHealthRisk;
     });
+    nextStep();
   }
 
   bool validateNumberOfPeople(NumberOfPeople value) {
@@ -201,8 +205,7 @@ class _VisibilityExampleState extends State
                   child: MyStatefulWidget(
                       healthRisk: _selectedHealthRisk,
                       healthRisks: healthRisks,
-                      selectHealthRisk: _selectHealthRisk,
-                      nextStep: nextStep),
+                      selectHealthRisk: _selectHealthRisk),
                 ),
                 Padding(
                     padding: const EdgeInsets.all(16.0),
