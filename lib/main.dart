@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nyss_reporting/errorTextField.dart';
 import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
 import "peopleCounter.dart";
@@ -109,10 +110,8 @@ class _VisibilityExampleState extends State
   }
 
   void nextStep() {
-    if (!_formKey.currentState.validate()) {
-      // TODO: show error message
-      return;
-    }
+    if (!_formKey.currentState.validate()) return;
+
     final int newIndex = _tabController.index + 1;
     if (newIndex < 0 || newIndex >= _tabController.length) return;
     _tabController.animateTo(newIndex);
@@ -163,26 +162,28 @@ class _VisibilityExampleState extends State
           body: TabBarView(controller: _tabController, children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: FormField(
-                  initialValue: _selectedHealthRisk,
-                  builder: (FormFieldState<int> state) {
-                    return MyStatefulWidget(
-                        healthRisk: state.value,
-                        state: state,
-                        healthRisks: healthRisks,
-                        selectHealthRisk: _selectHealthRisk,
-                        nextStep: nextStep);
-                  },
-                  validator: (value) {
-                    if (value < 1) {
-                      return 'Please select a health risk!';
-                    }
-                    return null;
-                  },
+              child: new SingleChildScrollView(
+                  child: Column(children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: FormField(
+                    initialValue: _selectedHealthRisk,
+                    builder: (FormFieldState<int> state) {
+                      return MyStatefulWidget(
+                          healthRisk: state.value,
+                          state: state,
+                          healthRisks: healthRisks,
+                          nextStep: nextStep);
+                    },
+                    validator: (value) {
+                      if (value < 1) {
+                        return 'Please select a health risk!';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-              ),
+              ])),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
