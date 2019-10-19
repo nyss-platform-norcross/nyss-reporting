@@ -159,11 +159,11 @@ class _VisibilityExampleState extends State
       // TODO: add toast message
       return;
     }
-    int maleUnder5 = _numberOfPeople.maleUnder5;
-    int male5OrOlder = _numberOfPeople.male5OrOlder;
-    int femaleUnder5 = _numberOfPeople.femaleUnder5;
-    int female5OrOlder = _numberOfPeople.female5OrOlder;
-    
+    String maleUnder5 = _numberOfPeople.maleUnder5.toString();
+    String male5OrOlder = _numberOfPeople.male5OrOlder.toString();
+    String femaleUnder5 = _numberOfPeople.femaleUnder5.toString();
+    String female5OrOlder = _numberOfPeople.female5OrOlder.toString();
+
     String response =
         '$_selectedHealthRisk#$maleUnder5#$male5OrOlder#$femaleUnder5#$female5OrOlder';
     SMSUtility.sendSMS(response, phoneNumbers);
@@ -199,41 +199,41 @@ class _VisibilityExampleState extends State
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: MyStatefulWidget(
-                            healthRisk: _selectedHealthRisk,
-                            healthRisks: healthRisks,
-                            selectHealthRisk: _selectHealthRisk,
-                            nextStep: nextStep),
+                      healthRisk: _selectedHealthRisk,
+                      healthRisks: healthRisks,
+                      selectHealthRisk: _selectHealthRisk,
+                      nextStep: nextStep),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Form(
-                  key: _formKey,
-                  child: FormField(
-                    initialValue: _numberOfPeople,
-                    builder: (FormFieldState<NumberOfPeople> state) {
-                      return PeopleCounter(
-                          numberOfPeople: _numberOfPeople,
-                          state: state,
-                          addMaleUnderFive: addMaleUnderFive,
-                          addMaleOverFive: addMaleOverFive,
-                          addFemaleUnderFive: addFemaleUnderFive,
-                          addFemaleOverFive: addFemaleOverFive,
-                          decrementMaleUnderFive: decrementMaleUnderFive,
-                          decrementMaleOverFive: decrementMaleOverFive,
-                          decrementFemaleUnderFive: decrementFemaleUnderFive,
-                          decrementFemaleOverFive: decrementFemaleOverFive,
-                          sendSms: sendSms,
-                          previousStep: previousStep);
-                    },
-                    validator: (value) {
-                      if (validateNumberOfPeople(value)) {
-                        return 'Please add a case to report';
-                      }
-                      return null;
-                    },
-                  ),
-                )
-                ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: FormField(
+                        initialValue: _numberOfPeople,
+                        builder: (FormFieldState<NumberOfPeople> state) {
+                          return PeopleCounter(
+                              numberOfPeople: _numberOfPeople,
+                              state: state,
+                              addMaleUnderFive: addMaleUnderFive,
+                              addMaleOverFive: addMaleOverFive,
+                              addFemaleUnderFive: addFemaleUnderFive,
+                              addFemaleOverFive: addFemaleOverFive,
+                              decrementMaleUnderFive: decrementMaleUnderFive,
+                              decrementMaleOverFive: decrementMaleOverFive,
+                              decrementFemaleUnderFive:
+                                  decrementFemaleUnderFive,
+                              decrementFemaleOverFive: decrementFemaleOverFive,
+                              sendSms: sendSms,
+                              previousStep: previousStep);
+                        },
+                        validator: (value) {
+                          if (validateNumberOfPeople(value)) {
+                            return 'Please add a case to report';
+                          }
+                          return null;
+                        },
+                      ),
+                    )),
               ])),
     );
   }
