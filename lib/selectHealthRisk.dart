@@ -13,6 +13,7 @@ class MyStatefulWidget extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Center(
+      child: new SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Column(children: healthRisks.map((item) => ListTile(
@@ -33,6 +34,6 @@ class MyStatefulWidget extends StatelessWidget {
           ])
         ]
       ),
-    );
+    ));
   }
 }

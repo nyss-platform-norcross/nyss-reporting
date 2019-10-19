@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import "peopleCounter.dart";
 import "sendSMS.dart";
 
+const String URLHealthRisks = "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
 const String URL = "https://reportingappbackendrc.herokuapp.com/";
 
 class VisibilityExample extends StatefulWidget {
@@ -130,12 +131,12 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
       title: 'Health Risk App',
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(200, 192, 192, 192),
+          backgroundColor: Color.fromARGB(200, 192, 44, 4),
           title: Text('Health Risk App'),
           bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
           child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.red),
+            data: Theme.of(context).copyWith(accentColor: Color.fromARGB(200, 245, 245, 245)),
             child: Container(
               height: 48.0,
               alignment: Alignment.center,
@@ -192,7 +193,7 @@ class _VisibilityExampleState extends State  with SingleTickerProviderStateMixin
       });
     });
     http
-        .read('${URL}healthRisks')
+        .read(URLHealthRisks)
         .then((value) {
       setState(() {
         healthRisks = jsonDecode(value)
@@ -227,112 +228,8 @@ class HealthRisk {
 
   factory HealthRisk.fromJson(Map<String, dynamic> json) {
     return HealthRisk(
-      id: json['Id'],
-      name: json['Name'],
+      id: int.parse(json['code']),
+      name: json['displayName'],
     );
   }
 }
-
-
-
-
-
-
-
-/* class _AppBarSampleState extends State<AppBarSample>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Android Monks'),
-          leading: IconButton(
-            tooltip: 'Previous choice',
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              _nextPage(-1);
-            },
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.arrow_forward),
-              tooltip: 'Next choice',
-              onPressed: () {
-                _nextPage(1);
-              },
-            ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(48.0),
-            child: Theme(
-              data: Theme.of(context).copyWith(accentColor: Colors.white),
-              child: Container(
-                height: 48.0,
-                alignment: Alignment.center,
-                child: TabPageSelector(controller: _tabController),
-              ),
-            ),
-          ),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: choices.map((Choice choice) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ChoiceCard(choice: choice),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class Choice {
-  const Choice({this.title, this.icon});
-
-  final String title;
-  final IconData icon;
-}
-
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'CAR', icon: Icons.directions_car),
-  const Choice(title: 'BICYCLE', icon: Icons.directions_bike),
-  const Choice(title: 'BOAT', icon: Icons.directions_boat),
-  const Choice(title: 'BUS', icon: Icons.directions_bus),
-  const Choice(title: 'TRAIN', icon: Icons.directions_railway),
-  const Choice(title: 'WALK', icon: Icons.directions_walk),
-];
-
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key key, this.choice}) : super(key: key);
-
-  final Choice choice;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    return Card(
-      color: Colors.white,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(choice.icon, size: 128.0, color: textStyle.color),
-            Text(choice.title, style: textStyle),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// void main() {
- // runApp(AppBarSample());
-// } */

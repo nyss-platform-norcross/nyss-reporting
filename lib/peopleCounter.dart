@@ -71,7 +71,7 @@ class PeopleCounter extends StatelessWidget {
             new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Male > 5', style: new TextStyle(fontSize: 25.0)),
+              new Text('Male >= 5', style: new TextStyle(fontSize: 25.0)),
               new FloatingActionButton(
                 onPressed: addMaleOverFive,
                 child: new Icon(
@@ -117,7 +117,7 @@ class PeopleCounter extends StatelessWidget {
             new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Text('Female > 5', style: new TextStyle(fontSize: 25.0)),
+              new Text('Female >= 5', style: new TextStyle(fontSize: 25.0)),
 
               new FloatingActionButton(
                 onPressed: addFemaleOverFive,
