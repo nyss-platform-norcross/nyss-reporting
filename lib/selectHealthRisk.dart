@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nyss_reporting/errorTextField.dart';
 import 'main.dart';
 import 'outlineButton.dart';
 
@@ -8,13 +7,13 @@ class MyStatefulWidget extends StatelessWidget {
       {Key key,
       @required this.healthRisk,
       @required this.healthRisks,
-      @required this.state,
+      @required this.selectHealthRisk,
       @required this.nextStep})
       : super(key: key);
 
   final int healthRisk;
   final List<HealthRisk> healthRisks;
-  final FormFieldState<int> state;
+  final Function selectHealthRisk;
   final Function nextStep;
 
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class MyStatefulWidget extends StatelessWidget {
                         value: item.id,
                         groupValue: healthRisk,
                         onChanged: (int value) {
-                          this.state.didChange(value);
+                          this.selectHealthRisk(value);
                         },
                       ),
                     ))
@@ -40,15 +39,6 @@ class MyStatefulWidget extends StatelessWidget {
             onPressed: nextStep,
           ),
         ]),
-        Row(children: <Widget>[
-          Visibility(
-            visible: this.state.hasError,
-            child: StyledErrorTextField(
-              title: state.errorText,
-              color: RED,
-            ),
-          )
-        ],)
       ]),
     ));
   }

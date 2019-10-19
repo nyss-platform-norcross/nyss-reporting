@@ -132,7 +132,10 @@ class _VisibilityExampleState extends State
   }
 
   bool validateNumberOfPeople(NumberOfPeople value) {
-    return (value.male5OrOlder > 0) | (value.maleUnder5 > 0) | (value.femaleUnder5 > 0) | (value.female5OrOlder > 0);
+    return (value.male5OrOlder > 0) |
+        (value.maleUnder5 > 0) |
+        (value.femaleUnder5 > 0) |
+        (value.female5OrOlder > 0);
   }
 
   void sendSms() {
@@ -172,29 +175,11 @@ class _VisibilityExampleState extends State
           body: TabBarView(controller: _tabController, children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: new SingleChildScrollView(
-                  child: Column(children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: FormField(
-                    initialValue: _selectedHealthRisk,
-                    builder: (FormFieldState<int> state) {
-                      return MyStatefulWidget(
-                          healthRisk: state.value,
-                          state: state,
-                          healthRisks: healthRisks,
-                          nextStep: nextStep);
-                    },
-                    validator: (value) {
-                      if (value < 1) {
-                        return 'No health risk selected';
-                      }
-                      return null;
-                    },
-                    autovalidate: true,
-                  ),
-                ),
-              ])),
+              child: MyStatefulWidget(
+                  healthRisk: _selectedHealthRisk,
+                  selectHealthRisk: _selectHealthRisk,
+                  healthRisks: healthRisks,
+                  nextStep: nextStep),
             ),
             Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -204,18 +189,18 @@ class _VisibilityExampleState extends State
                     initialValue: _numberOfPeople,
                     builder: (FormFieldState<NumberOfPeople> state) {
                       return PeopleCounter(
-                        numberOfPeople: _numberOfPeople,
-                        state: state,
-                        addMaleUnderFive: addMaleUnderFive,
-                        addMaleOverFive: addMaleOverFive,
-                        addFemaleUnderFive: addFemaleUnderFive,
-                        addFemaleOverFive: addFemaleOverFive,
-                        decrementMaleUnderFive: decrementMaleUnderFive,
-                        decrementMaleOverFive: decrementMaleOverFive,
-                        decrementFemaleUnderFive: decrementFemaleUnderFive,
-                        decrementFemaleOverFive: decrementFemaleOverFive,
-                        sendSms: sendSms,
-                        previousStep: previousStep);
+                          numberOfPeople: _numberOfPeople,
+                          state: state,
+                          addMaleUnderFive: addMaleUnderFive,
+                          addMaleOverFive: addMaleOverFive,
+                          addFemaleUnderFive: addFemaleUnderFive,
+                          addFemaleOverFive: addFemaleOverFive,
+                          decrementMaleUnderFive: decrementMaleUnderFive,
+                          decrementMaleOverFive: decrementMaleOverFive,
+                          decrementFemaleUnderFive: decrementFemaleUnderFive,
+                          decrementFemaleOverFive: decrementFemaleOverFive,
+                          sendSms: sendSms,
+                          previousStep: previousStep);
                     },
                     validator: (value) {
                       if (validateNumberOfPeople(value)) {
