@@ -2,20 +2,26 @@ PODS:
   - Flutter (1.0.0)
   - flutter_sms (0.0.1):
     - Flutter
+  - fluttertoast (0.0.2):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_sms (from `.symlinks/plugins/flutter_sms/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
   flutter_sms:
     :path: ".symlinks/plugins/flutter_sms/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_sms: 96f145a6ee930686d1126f3de2b50ff90d5d427f
+  fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
 

@@ -1,36 +1,34 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'outlineButton.dart';
+import '../types/HealthRisk.dart';
+import '../components/outlineButton.dart';
 
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget(
       {Key key,
       @required this.healthRisk,
-      @required this.healthRisks,
       @required this.selectHealthRisk,
+      @required this.healthRisks,
       @required this.nextStep})
       : super(key: key);
 
   final int healthRisk;
   final List<HealthRisk> healthRisks;
-  final Function selectHealthRisk;
+  final ValueChanged<int> selectHealthRisk;
   final Function nextStep;
 
   Widget build(BuildContext context) {
     return Center(
-        child: SingleChildScrollView(
+        child: new SingleChildScrollView(
       child: Column(children: <Widget>[
         Column(
             children: healthRisks
-                .map((item) => ListTile(
+                .map((item) => RadioListTile(
                       title: Text(item.name),
-                      leading: Radio(
-                        value: item.id,
-                        groupValue: healthRisk,
-                        onChanged: (int value) {
-                          this.selectHealthRisk(value);
-                        },
-                      ),
+                      value: item.id,
+                      groupValue: healthRisk,
+                      onChanged: (int value) {
+                        selectHealthRisk(value);
+                      },
                     ))
                 .toList()),
         Row(children: <Widget>[
@@ -38,7 +36,7 @@ class MyStatefulWidget extends StatelessWidget {
             title: 'Next',
             onPressed: nextStep,
           ),
-        ]),
+        ])
       ]),
     ));
   }

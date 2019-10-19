@@ -1,19 +1,15 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:nyss_reporting/errorTextField.dart';
-import 'package:nyss_reporting/numberOfPeople.dart';
-import "selectHealthRisk.dart";
 import 'package:http/http.dart' as http;
-import "peopleCounter.dart";
-import "sendSMS.dart";
+import 'package:flutter/material.dart';
+import 'package:nyss_reporting/types/numberOfPeople.dart';
 
-const String URLHealthRisks =
-    "https://nyss-codeathon-brussels.azurewebsites.net/api/HealthRisks/";
-const String URL = "https://reportingappbackendrc.herokuapp.com/";
-
-const Color RED = Color.fromARGB(200, 192, 44, 4);
-const Color GREY = Color.fromARGB(255, 245, 245, 245);
+import "screens/selectHealthRisk.dart";
+import "screens/peopleCounter.dart";
+import "utils/sendSMS.dart";
+import "utils/AppUtils.dart";
+import "types/PhoneType.dart";
+import 'types/HealthRisk.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class VisibilityExample extends StatefulWidget {
   @override
@@ -51,28 +47,50 @@ class _VisibilityExampleState extends State
     super.dispose();
   }
 
+  bool limitNumber(int number) {
+    if (number >= 20) {
+      Fluttertoast.showToast(
+          msg: "You have reached the limit!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: AppUtils.RED,
+          textColor: Colors.white);
+      return true;
+    }
+    return false;
+  }
+
   void addMaleUnderFive() {
-    setState(() {
-      _numberOfPeople.maleUnder5 += 1;
-    });
+    if (!limitNumber(_numberOfPeople.maleUnder5)) {
+      setState(() {
+        _numberOfPeople.maleUnder5 += 1;
+      });
+    }
   }
 
   void addMaleOverFive() {
-    setState(() {
-      _numberOfPeople.male5OrOlder += 1;
-    });
+    if (!limitNumber(_numberOfPeople.male5OrOlder)) {
+      setState(() {
+        _numberOfPeople.male5OrOlder += 1;
+      });
+    }
   }
 
   void addFemaleUnderFive() {
-    setState(() {
-      _numberOfPeople.femaleUnder5 += 1;
-    });
+    if (!limitNumber(_numberOfPeople.femaleUnder5)) {
+      setState(() {
+        _numberOfPeople.femaleUnder5 += 1;
+      });
+    }
   }
 
   void addFemaleOverFive() {
-    setState(() {
-      _numberOfPeople.female5OrOlder += 1;
-    });
+    if (!limitNumber(_numberOfPeople.female5OrOlder)) {
+      setState(() {
+        _numberOfPeople.female5OrOlder += 1;
+      });
+    }
   }
 
   void decrementMaleUnderFive() {
@@ -112,8 +130,6 @@ class _VisibilityExampleState extends State
   }
 
   void nextStep() {
-    if (!_formKey.currentState.validate()) return;
-
     final int newIndex = _tabController.index + 1;
     if (newIndex < 0 || newIndex >= _tabController.length) return;
     _tabController.animateTo(newIndex);
@@ -154,17 +170,16 @@ class _VisibilityExampleState extends State
       title: 'Health Risk App',
       theme: ThemeData(
         brightness: Brightness.light,
-        toggleableActiveColor: RED,
+        toggleableActiveColor: AppUtils.RED,
       ),
       home: Scaffold(
           appBar: AppBar(
-              backgroundColor: Color.fromARGB(200, 192, 44, 4),
+              backgroundColor: AppUtils.RED,
               title: Text('Health Risk App'),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(48.0),
                 child: Theme(
-                  data: Theme.of(context).copyWith(
-                      accentColor: Color.fromARGB(200, 245, 245, 245)),
+                  data: Theme.of(context).copyWith(accentColor: AppUtils.GREY),
                   child: Container(
                     height: 48.0,
                     alignment: Alignment.center,
@@ -172,18 +187,21 @@ class _VisibilityExampleState extends State
                   ),
                 ),
               )),
-          body: TabBarView(controller: _tabController, children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: MyStatefulWidget(
-                  healthRisk: _selectedHealthRisk,
-                  selectHealthRisk: _selectHealthRisk,
-                  healthRisks: healthRisks,
-                  nextStep: nextStep),
-            ),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
+          body: TabBarView(
+              controller: _tabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: MyStatefulWidget(
+                            healthRisk: _selectedHealthRisk,
+                            healthRisks: healthRisks,
+                            selectHealthRisk: _selectHealthRisk,
+                            nextStep: nextStep),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
                   key: _formKey,
                   child: FormField(
                     initialValue: _numberOfPeople,
@@ -209,20 +227,21 @@ class _VisibilityExampleState extends State
                       return null;
                     },
                   ),
-                ))
-          ])),
+                )
+                ),
+              ])),
     );
   }
 
   void _getThingsOnStartup() {
-    http.read('${URL}phoneNumbers').then((value) {
+    http.read('${AppUtils.URL}phoneNumbers').then((value) {
       setState(() {
         phoneNumbers = jsonDecode(value)
             .map<String>((n) => Phone.fromJson(n).number)
             .toList();
       });
     });
-    http.read(URLHealthRisks).then((value) {
+    http.read(AppUtils.URLHealthRisks).then((value) {
       setState(() {
         healthRisks = jsonDecode(value)
             .map<HealthRisk>((n) => HealthRisk.fromJson(n))
@@ -233,31 +252,3 @@ class _VisibilityExampleState extends State
 }
 
 void main() => runApp(VisibilityExample());
-
-class Phone {
-  final String number;
-  final String name;
-
-  Phone({this.name, this.number});
-
-  factory Phone.fromJson(Map<String, dynamic> json) {
-    return Phone(
-      number: json['number'],
-      name: json['name'],
-    );
-  }
-}
-
-class HealthRisk {
-  final int id;
-  final String name;
-
-  HealthRisk({this.name, this.id});
-
-  factory HealthRisk.fromJson(Map<String, dynamic> json) {
-    return HealthRisk(
-      id: int.parse(json['code']),
-      name: json['displayName'],
-    );
-  }
-}
