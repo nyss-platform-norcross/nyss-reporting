@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'outlineButton.dart';
+import 'main.dart';
 class PeopleCounter extends StatelessWidget {
   PeopleCounter(
       {Key key,
@@ -139,13 +140,14 @@ class PeopleCounter extends StatelessWidget {
           ),
           Row( 
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[             
-              RaisedButton(
-                child: Text('Go back'),
+            children: <Widget>[
+              StyledOutlineButton(
+                title: 'Go back',
                 onPressed: previousStep,
-              ),
-              RaisedButton(
-                child: Text('Submit my data'),
+                outlineColor: GREY,
+              ), 
+              StyledOutlineButton(
+                title: 'Sybmit my data',
                 onPressed: sendSms,
               ),
             ],

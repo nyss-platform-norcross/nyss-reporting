@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'outlineButton.dart';
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget(
       {Key key, @required this.healthRisk, @required this.selectHealthRisk, @required this.healthRisks, @required this.nextStep})
@@ -27,8 +28,8 @@ class MyStatefulWidget extends StatelessWidget {
             ),
           )).toList()),
           Row(children: <Widget>[
-            RaisedButton(
-              child: Text('Next'),
+            StyledOutlineButton(
+              title: 'Next',
               onPressed: nextStep,
             ),
           ])
