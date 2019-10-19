@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:nyss_reporting/types/numberOfPeople.dart';
+import 'package:flutter/services.dart';
 
 import "screens/selectHealthRisk.dart";
 import "screens/peopleCounter.dart";
@@ -171,6 +172,10 @@ class _VisibilityExampleState extends State
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Health Risk App',
       theme: ThemeData(
