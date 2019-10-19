@@ -18,8 +18,7 @@ class PeopleCounter extends StatelessWidget {
       @required this.decrementFemaleUnderFive,
       @required this.decrementFemaleOverFive,
       @required this.sendSms,
-      @required this.previousStep
-      })
+      @required this.previousStep})
       : super(key: key);
 
   final num maleUnderFive;
@@ -44,118 +43,125 @@ class PeopleCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: new Center(
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+      child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
             new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              new Text('Male < 5', style: new TextStyle(fontSize: 25.0)),
-              new FloatingActionButton(
-                onPressed: addMaleUnderFive,
-                child: new Icon(
-                  Icons.add,
-                  color: Colors.black,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new Text('Male < 5', style: new TextStyle(fontSize: 25.0)),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    new FloatingActionButton(
+                      onPressed: decrementMaleUnderFive,
+                      child: new Icon(
+                        const IconData(0xe15b, fontFamily: 'MaterialIcons'),
+                        color: Colors.black,
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    new Text('$maleUnderFive',
+                        style: new TextStyle(fontSize: 60.0)),
+                    new FloatingActionButton(
+                      onPressed: addMaleUnderFive,
+                      child: new Icon(Icons.add, color: Colors.black),
+                      backgroundColor: Colors.white,
+                    ),
+                  ],
                 ),
-                backgroundColor: Colors.white,
-              ),
-              new Text('$maleUnderFive', style: new TextStyle(fontSize: 60.0)),
-              new FloatingActionButton(
-                onPressed:  decrementMaleUnderFive,
-                child: new Icon(
-                    const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                    color: Colors.black),
-                backgroundColor: Colors.white,
-              ),
-            ],
-          ),
-
+              ],
+            ),
             new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              new Text('Male >= 5', style: new TextStyle(fontSize: 25.0)),
-              new FloatingActionButton(
-                onPressed: addMaleOverFive,
-                child: new Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-                backgroundColor: Colors.white,
-              ),
-              new Text('$maleOverFive', style: new TextStyle(fontSize: 60.0)),
-              new FloatingActionButton(
-                onPressed:  decrementMaleOverFive,
-                child: new Icon(
-                    const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                    color: Colors.black),
-                backgroundColor: Colors.white,
-              ),
-            ],
-          ),
-
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new Text('Male >= 5', style: new TextStyle(fontSize: 25.0)),
+                new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      new FloatingActionButton(
+                        onPressed: decrementMaleOverFive,
+                        child: new Icon(
+                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
+                          color: Colors.black,
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      new Text('$maleOverFive',
+                          style: new TextStyle(fontSize: 60.0)),
+                      new FloatingActionButton(
+                        onPressed: addMaleOverFive,
+                        child: new Icon(Icons.add, color: Colors.black),
+                        backgroundColor: Colors.white,
+                      ),
+                    ])
+              ],
+            ),
             new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              new Text('Female < 5', style: new TextStyle(fontSize: 25.0)),
-              new FloatingActionButton(
-                onPressed: addFemaleUnderFive,
-                child: new Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-                backgroundColor: Colors.white,
-              ),
-              new Text('$femaleUnderFive', style: new TextStyle(fontSize: 60.0)),
-              new FloatingActionButton(
-                onPressed:  decrementFemaleUnderFive,
-                child: new Icon(
-                    const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                    color: Colors.black),
-                backgroundColor: Colors.white,
-              ),
-            ],
-          ),
-
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new Text('Female < 5', style: new TextStyle(fontSize: 25.0)),
+                new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      new FloatingActionButton(
+                        onPressed: decrementFemaleUnderFive,
+                        child: new Icon(
+                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
+                          color: Colors.black,
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      new Text('$femaleUnderFive',
+                          style: new TextStyle(fontSize: 60.0)),
+                      new FloatingActionButton(
+                        onPressed: addFemaleUnderFive,
+                        child: new Icon(Icons.add, color: Colors.black),
+                        backgroundColor: Colors.white,
+                      ),
+                    ]),
+              ],
+            ),
             new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              new Text('Female >= 5', style: new TextStyle(fontSize: 25.0)),
-
-              new FloatingActionButton(
-                onPressed: addFemaleOverFive,
-                child: new Icon(
-                  Icons.add,
-                  color: Colors.black,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                new Text('Female >= 5', style: new TextStyle(fontSize: 25.0)),
+                new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      new FloatingActionButton(
+                        onPressed: decrementFemaleOverFive,
+                        child: new Icon(
+                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
+                          color: Colors.black,
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      new Text('$femaleOverFive',
+                          style: new TextStyle(fontSize: 60.0)),
+                      new FloatingActionButton(
+                        onPressed: addFemaleOverFive,
+                        child: new Icon(Icons.add, color: Colors.black),
+                        backgroundColor: Colors.white,
+                      ),
+                    ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                StyledOutlineButton(
+                  title: 'Go back',
+                  onPressed: previousStep,
+                  outlineColor: AppUtils.GREY,
                 ),
-                backgroundColor: Colors.white,
-              ),
-              new Text('$femaleOverFive', style: new TextStyle(fontSize: 60.0)),
-              new FloatingActionButton(
-                onPressed:  decrementFemaleOverFive,
-                child: new Icon(
-                    const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                    color: Colors.black),
-                backgroundColor: Colors.white,
-              ),
-            ],
-          ),
-          Row( 
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              StyledOutlineButton(
-                title: 'Go back',
-                onPressed: previousStep,
-                outlineColor: AppUtils.GREY,
-              ), 
-              StyledOutlineButton(
-                title: 'Sybmit my data',
-                onPressed: sendSms,
-              ),
-            ],
-          )
-        ]
-        ),
-      )
-    );
+                StyledOutlineButton(
+                  title: 'Sybmit my data',
+                  onPressed: sendSms,
+                ),
+              ],
+            )
+          ]),
+    ));
   }
 }
