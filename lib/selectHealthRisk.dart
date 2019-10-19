@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'types/HealthRisk.dart';
 import 'outlineButton.dart';
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget(
