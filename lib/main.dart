@@ -177,10 +177,11 @@ class _VisibilityExampleState extends State
                     },
                     validator: (value) {
                       if (value < 1) {
-                        return 'Please select a health risk!';
+                        return 'No health risk selected';
                       }
                       return null;
                     },
+                    autovalidate: true,
                   ),
                 ),
               ])),
