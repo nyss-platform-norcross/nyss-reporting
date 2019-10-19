@@ -156,7 +156,7 @@ class PeopleCounter extends StatelessWidget {
                   outlineColor: AppUtils.GREY,
                 ),
                 StyledOutlineButton(
-                  title: 'Sybmit my data',
+                  title: 'Submit my data',
                   onPressed: sendSms,
                 ),
               ],
