@@ -16,7 +16,7 @@ class PeopleCounter extends StatelessWidget {
       @required this.decrementFemaleUnderFive,
       @required this.decrementFemaleOverFive,
       @required this.sendSms,
-
+      @required this.previousStep
       })
       : super(key: key);
 
@@ -36,6 +36,7 @@ class PeopleCounter extends StatelessWidget {
   final Function decrementFemaleOverFive;
 
   final Function sendSms;
+  final Function previousStep;
 
   @override
   Widget build(BuildContext context) {
@@ -136,11 +137,20 @@ class PeopleCounter extends StatelessWidget {
               ),
             ],
           ),
-            RaisedButton(
-              child: Text('Submit my data'),
-              onPressed: sendSms,
-            ),
-          ]
+          Row( 
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[             
+              RaisedButton(
+                child: Text('Go back'),
+                onPressed: previousStep,
+              ),
+              RaisedButton(
+                child: Text('Submit my data'),
+                onPressed: sendSms,
+              ),
+            ],
+          )
+        ]
         ),
       )
     );
