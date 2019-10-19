@@ -24,15 +24,13 @@ class MyStatefulWidget extends StatelessWidget {
       child: Column(children: <Widget>[
         Column(
             children: healthRisks
-                .map((item) => ListTile(
+                .map((item) => RadioListTile(
                       title: Text(item.name),
-                      leading: Radio(
-                        value: item.id,
-                        groupValue: healthRisk,
-                        onChanged: (int value) {
-                          this.state.didChange(value);
-                        },
-                      ),
+                      value: item.id,
+                      groupValue: healthRisk,
+                      onChanged: (int value) {
+                        this.state.didChange(value);
+                      },
                     ))
                 .toList()),
         Row(children: <Widget>[
