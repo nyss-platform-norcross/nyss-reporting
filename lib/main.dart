@@ -52,7 +52,7 @@ class _VisibilityExampleState extends State
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
-          backgroundColor: Colors.red,
+          backgroundColor: AppUtils.RED,
           textColor: Colors.white);
       return true;
     }
