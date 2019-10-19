@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
-
+import 'outlineButton.dart';
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget(
       {Key key,
@@ -20,28 +20,26 @@ class MyStatefulWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: new SingleChildScrollView(
-      child: Column(children: <Widget>[
-        Column(
-            children: healthRisks
-                .map((item) => ListTile(
-                      title: Text(item.name),
-                      leading: Radio(
-                        value: item.id,
-                        groupValue: healthRisk,
-                        onChanged: (int value) {
-                          //selectHealthRisk(value);
-                          this.state.didChange(value);
-                        },
-                      ),
-                    ))
-                .toList()),
-        Row(children: <Widget>[
-          RaisedButton(
-            child: Text('Next'),
-            onPressed: nextStep,
-          ),
-        ])
-      ]),
+      child: Column(
+        children: <Widget>[
+          Column(children: healthRisks.map((item) => ListTile(
+            title: Text(item.name),
+            leading: Radio(
+              value: item.id,
+              groupValue: healthRisk,
+              onChanged: (int value) {
+                this.state.didChange(value);
+              },
+            ),
+          )).toList()),
+          Row(children: <Widget>[
+            StyledOutlineButton(
+              title: 'Next',
+              onPressed: nextStep,
+            ),
+          ])
+        ]
+      ),
     ));
   }
 }
