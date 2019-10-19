@@ -54,9 +54,9 @@ class PeopleCounter extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     new FloatingActionButton(
-                      onPressed: addMaleUnderFive,
+                      onPressed: decrementMaleUnderFive,
                       child: new Icon(
-                        Icons.add,
+                        const IconData(0xe15b, fontFamily: 'MaterialIcons'),
                         color: Colors.black,
                       ),
                       backgroundColor: Colors.white,
@@ -64,10 +64,8 @@ class PeopleCounter extends StatelessWidget {
                     new Text('$maleUnderFive',
                         style: new TextStyle(fontSize: 60.0)),
                     new FloatingActionButton(
-                      onPressed: decrementMaleUnderFive,
-                      child: new Icon(
-                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                          color: Colors.black),
+                      onPressed: addMaleUnderFive,
+                      child: new Icon(Icons.add, color: Colors.black),
                       backgroundColor: Colors.white,
                     ),
                   ],
@@ -82,9 +80,9 @@ class PeopleCounter extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       new FloatingActionButton(
-                        onPressed: addMaleOverFive,
+                        onPressed: decrementMaleOverFive,
                         child: new Icon(
-                          Icons.add,
+                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
                           color: Colors.black,
                         ),
                         backgroundColor: Colors.white,
@@ -92,10 +90,8 @@ class PeopleCounter extends StatelessWidget {
                       new Text('$maleOverFive',
                           style: new TextStyle(fontSize: 60.0)),
                       new FloatingActionButton(
-                        onPressed: decrementMaleOverFive,
-                        child: new Icon(
-                            const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                            color: Colors.black),
+                        onPressed: addMaleOverFive,
+                        child: new Icon(Icons.add, color: Colors.black),
                         backgroundColor: Colors.white,
                       ),
                     ])
@@ -109,9 +105,9 @@ class PeopleCounter extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       new FloatingActionButton(
-                        onPressed: addFemaleUnderFive,
+                        onPressed: decrementFemaleUnderFive,
                         child: new Icon(
-                          Icons.add,
+                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
                           color: Colors.black,
                         ),
                         backgroundColor: Colors.white,
@@ -119,10 +115,8 @@ class PeopleCounter extends StatelessWidget {
                       new Text('$femaleUnderFive',
                           style: new TextStyle(fontSize: 60.0)),
                       new FloatingActionButton(
-                        onPressed: decrementFemaleUnderFive,
-                        child: new Icon(
-                            const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                            color: Colors.black),
+                        onPressed: addFemaleUnderFive,
+                        child: new Icon(Icons.add, color: Colors.black),
                         backgroundColor: Colors.white,
                       ),
                     ]),
@@ -136,9 +130,9 @@ class PeopleCounter extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       new FloatingActionButton(
-                        onPressed: addFemaleOverFive,
+                        onPressed: decrementFemaleOverFive,
                         child: new Icon(
-                          Icons.add,
+                          const IconData(0xe15b, fontFamily: 'MaterialIcons'),
                           color: Colors.black,
                         ),
                         backgroundColor: Colors.white,
@@ -146,10 +140,8 @@ class PeopleCounter extends StatelessWidget {
                       new Text('$femaleOverFive',
                           style: new TextStyle(fontSize: 60.0)),
                       new FloatingActionButton(
-                        onPressed: decrementFemaleOverFive,
-                        child: new Icon(
-                            const IconData(0xe15b, fontFamily: 'MaterialIcons'),
-                            color: Colors.black),
+                        onPressed: addFemaleOverFive,
+                        child: new Icon(Icons.add, color: Colors.black),
                         backgroundColor: Colors.white,
                       ),
                     ])
